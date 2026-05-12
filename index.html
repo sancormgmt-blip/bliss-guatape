@@ -995,7 +995,8 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
-     DAWN INTRO · amanecer cromático real (azul→magenta→naranja→oro)
+     DAWN INTRO v7 · GPU-only animations (transform + opacity)
+     Cromaticidad por LAYERS apilados con opacity, no background interpolation
      ───────────────────────────────────────────────────────────── */
   .dawn {
     position: fixed;
@@ -1009,74 +1010,90 @@
     overflow: hidden;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    animation: dawn-bg 4.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    isolation: isolate;
   }
-  /* Background transitions through dawn colors */
-  @keyframes dawn-bg {
-    0%   { background: radial-gradient(ellipse at 50% 130%, #000 0%, #000 100%); }
-    18%  { background: radial-gradient(ellipse at 50% 110%, #0A1A26 0%, #000 60%); }
-    35%  { background: radial-gradient(ellipse at 50% 100%, #2A1830 0%, #0A1018 55%, #000 90%); }
-    55%  { background: radial-gradient(ellipse at 50% 90%, #6B3A1A 0%, #2A1830 35%, #0A0F18 80%); }
-    75%  { background: radial-gradient(ellipse at 50% 75%, #C9874A 0%, #6B3A1A 25%, #2A1830 60%, #000 95%); }
-    100% { background: radial-gradient(ellipse at 50% 60%, #D4AF6F 0%, #A8884C 15%, #6B3A1A 35%, #1A0F1A 70%, #000 100%); }
-  }
-
-  /* The sun-disc — soft glow halo behind the tree */
-  .dawn-sun {
+  /* Each color layer is positioned absolute, fades in/out by opacity (GPU) */
+  .dawn-layer {
     position: absolute;
-    left: 50%;
-    bottom: -80vh;
-    width: 90vh;
-    height: 90vh;
-    border-radius: 50%;
-    transform: translateX(-50%);
-    background: radial-gradient(circle,
-      rgba(229,197,137,0.85) 0%,
-      rgba(212,175,111,0.55) 12%,
-      rgba(201,135,74,0.30) 28%,
-      rgba(107,58,26,0.12) 50%,
-      transparent 75%);
-    filter: blur(28px);
+    inset: 0;
     opacity: 0;
-    animation: dawn-sun-rise 4.2s cubic-bezier(0.16, 0.84, 0.36, 1) 0.2s forwards;
     pointer-events: none;
+    will-change: opacity;
+    z-index: 1;
   }
-  @keyframes dawn-sun-rise {
-    0%   { opacity: 0;    bottom: -80vh; }
-    25%  { opacity: 0.4;  bottom: -50vh; }
-    55%  { opacity: 0.85; bottom: -20vh; }
-    100% { opacity: 1;    bottom: -8vh; }
+  .dawn-layer.l-night {
+    background: radial-gradient(ellipse at 50% 110%, #0A1A28 0%, #050A14 50%, #000 100%);
+    animation: dawn-fade 4.6s cubic-bezier(0.4,0,0.6,1) forwards;
+    animation-delay: 0.1s;
+  }
+  .dawn-layer.l-violet {
+    background: radial-gradient(ellipse at 50% 95%, #3A1D38 0%, #1A0E22 45%, #000 85%);
+    animation: dawn-fade 4.0s cubic-bezier(0.4,0,0.6,1) forwards;
+    animation-delay: 0.9s;
+  }
+  .dawn-layer.l-magenta {
+    background: radial-gradient(ellipse at 50% 88%, #7A3520 0%, #3A1D38 40%, #0F0818 85%);
+    animation: dawn-fade 3.4s cubic-bezier(0.4,0,0.6,1) forwards;
+    animation-delay: 1.7s;
+  }
+  .dawn-layer.l-orange {
+    background: radial-gradient(ellipse at 50% 78%, #C9874A 0%, #7A3520 30%, #1A0E22 75%, #000 100%);
+    animation: dawn-fade 2.8s cubic-bezier(0.4,0,0.6,1) forwards;
+    animation-delay: 2.4s;
+  }
+  .dawn-layer.l-gold {
+    background: radial-gradient(ellipse at 50% 65%, #E5C589 0%, #C9874A 18%, #6B3A1A 45%, #1A0E22 75%, #000 100%);
+    animation: dawn-final 2.2s cubic-bezier(0.4,0,0.6,1) forwards;
+    animation-delay: 3.0s;
+  }
+  @keyframes dawn-fade {
+    0%, 100% { opacity: 0; }
+    50%      { opacity: 1; }
+  }
+  @keyframes dawn-final {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
   }
 
-  /* Tree of life — IS the rising sun. Emerges from below the horizon */
+  /* Tree of life — emerge from below using translate3d (GPU) */
   .dawn-tree {
     position: relative;
-    z-index: 2;
-    width: clamp(112px, 28vw, 184px);
+    z-index: 3;
+    width: clamp(120px, 28vw, 184px);
     height: auto;
     opacity: 0;
-    transform: translateY(60vh) scale(0.4);
-    filter: drop-shadow(0 0 0 rgba(212,175,111,0));
+    transform: translate3d(0, 60vh, 0) scale(0.5);
+    will-change: transform, opacity;
     animation: dawn-tree-rise 3.6s cubic-bezier(0.16, 0.84, 0.36, 1) 0.8s forwards;
   }
   @keyframes dawn-tree-rise {
-    0%   { opacity: 0;    transform: translateY(60vh) scale(0.4);
-           filter: drop-shadow(0 0 0 rgba(212,175,111,0)); }
-    15%  { opacity: 0.3;  transform: translateY(45vh) scale(0.55);
-           filter: drop-shadow(0 0 6px rgba(212,175,111,0.15)); }
-    45%  { opacity: 0.8;  transform: translateY(20vh) scale(0.78);
-           filter: drop-shadow(0 0 18px rgba(229,197,137,0.45)); }
-    75%  { opacity: 1;    transform: translateY(2vh) scale(0.98);
-           filter: drop-shadow(0 0 28px rgba(229,197,137,0.7)); }
-    100% { opacity: 1;    transform: translateY(0) scale(1);
-           filter: drop-shadow(0 0 20px rgba(229,197,137,0.5)); }
+    0%   { opacity: 0;   transform: translate3d(0, 60vh, 0) scale(0.5); }
+    20%  { opacity: 0.5; transform: translate3d(0, 40vh, 0) scale(0.62); }
+    55%  { opacity: 1;   transform: translate3d(0, 12vh, 0) scale(0.85); }
+    100% { opacity: 1;   transform: translate3d(0, 0, 0) scale(1); }
   }
 
-  /* Wordmark BLISS — TODAS letras doradas, idénticas al brand */
+  /* Soft halo behind the tree using ::after — no filter:drop-shadow (slow) */
+  .dawn-tree::after { display: none; }
+  .dawn-halo {
+    position: absolute;
+    z-index: 2;
+    width: clamp(280px, 50vw, 420px);
+    height: clamp(280px, 50vw, 420px);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(229,197,137,0.55) 0%, rgba(212,175,111,0.18) 30%, transparent 65%);
+    opacity: 0;
+    transform: translate3d(0, 60vh, 0) scale(0.5);
+    will-change: transform, opacity;
+    animation: dawn-tree-rise 3.6s cubic-bezier(0.16, 0.84, 0.36, 1) 0.8s forwards;
+    pointer-events: none;
+  }
+
+  /* Wordmark — todas doradas, GPU-only animations */
   .dawn-wordmark {
     position: relative;
-    z-index: 2;
-    margin-top: 32px;
+    z-index: 3;
+    margin-top: 36px;
     font-family: 'Manrope', sans-serif;
     font-weight: 300;
     font-size: clamp(26px, 6.5vw, 50px);
@@ -1085,28 +1102,28 @@
     text-transform: uppercase;
     display: flex;
     gap: 0;
-    text-shadow: 0 0 24px rgba(212,175,111,0.45);
+    text-shadow: 0 0 24px rgba(212,175,111,0.5);
   }
   .dawn-wordmark span {
     display: inline-block;
     color: var(--gold);
     opacity: 0;
-    transform: translateY(10px);
-    filter: blur(6px);
-    animation: dawn-letter 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    transform: translate3d(0, 12px, 0);
+    will-change: transform, opacity;
+    animation: dawn-letter 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
   }
-  .dawn-wordmark span:nth-child(1) { animation-delay: 2.5s; }
-  .dawn-wordmark span:nth-child(2) { animation-delay: 2.56s; }
-  .dawn-wordmark span:nth-child(3) { animation-delay: 2.62s; }
-  .dawn-wordmark span:nth-child(4) { animation-delay: 2.68s; }
-  .dawn-wordmark span:nth-child(5) { animation-delay: 2.74s; }
-  .dawn-wordmark span:nth-child(6) { animation-delay: 2.80s; }
-  .dawn-wordmark span:nth-child(7) { animation-delay: 2.86s; }
-  .dawn-wordmark span:nth-child(8) { animation-delay: 2.92s; }
-  .dawn-wordmark span:nth-child(9) { animation-delay: 2.98s; }
+  .dawn-wordmark span:nth-child(1) { animation-delay: 2.6s; }
+  .dawn-wordmark span:nth-child(2) { animation-delay: 2.66s; }
+  .dawn-wordmark span:nth-child(3) { animation-delay: 2.72s; }
+  .dawn-wordmark span:nth-child(4) { animation-delay: 2.78s; }
+  .dawn-wordmark span:nth-child(5) { animation-delay: 2.84s; }
+  .dawn-wordmark span:nth-child(6) { animation-delay: 2.90s; }
+  .dawn-wordmark span:nth-child(7) { animation-delay: 2.96s; }
+  .dawn-wordmark span:nth-child(8) { animation-delay: 3.02s; }
+  .dawn-wordmark span:nth-child(9) { animation-delay: 3.08s; }
   @keyframes dawn-letter {
-    0%   { opacity: 0; transform: translateY(10px); filter: blur(6px); }
-    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    0%   { opacity: 0; transform: translate3d(0, 12px, 0); }
+    100% { opacity: 1; transform: translate3d(0, 0, 0); }
   }
 
   .dawn-tagline {
@@ -1359,7 +1376,12 @@
      DAWN INTRO · amanecer cromático al cargar
      ═══════════════════════════════════════════════════════════════ -->
 <div class="dawn" id="dawn" role="presentation" aria-hidden="true">
-  <div class="dawn-sun"></div>
+  <div class="dawn-layer l-night"></div>
+  <div class="dawn-layer l-violet"></div>
+  <div class="dawn-layer l-magenta"></div>
+  <div class="dawn-layer l-orange"></div>
+  <div class="dawn-layer l-gold"></div>
+  <div class="dawn-halo"></div>
   <img class="dawn-tree" src="bliss-assets/tree-transparent.png" alt="">
   <h1 class="dawn-wordmark">
     <span>B</span><span>·</span><span>L</span><span>·</span><span>I</span><span>·</span><span>S</span><span>·</span><span>S</span>

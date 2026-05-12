@@ -579,6 +579,15 @@
     display: flex;
     flex-direction: column;
   }
+  /* Logo-centric sections: allow halos/drop-shadows to bleed past edges */
+  section.act.manifesto,
+  section.act.closing,
+  section.act.site-plan,
+  section.act.gallery {
+    overflow: visible;
+  }
+  /* But still hide any horizontal bleed at the document level */
+  body { overflow-x: hidden; }
 
   /* Cinema color-grade applied uniformly to every photo/video */
   .asset img, .asset video,
@@ -1154,8 +1163,13 @@
   }
   .manifesto-tree {
     width: clamp(54px, 14vw, 80px);
+    height: auto;
+    max-width: 80%;
     margin-bottom: 36px;
     opacity: 0.95;
+    /* Prevent halo clipping at edges */
+    padding: 6px;
+    box-sizing: content-box;
   }
   .manifesto-headline {
     font-family: 'Fraunces', 'Italiana', Georgia, serif;
@@ -1212,7 +1226,11 @@
     position: relative;
   }
   .closing-logo {
-    width: clamp(100px, 28vw, 160px);
+    width: auto;
+    max-width: clamp(100px, 28vw, 160px);
+    max-height: min(38vh, 280px);
+    height: auto;
+    object-fit: contain;
     margin-bottom: 40px;
     opacity: 1;
   }
@@ -3560,8 +3578,21 @@
     }
   })();
 
-  // ═══ Nivel 3 · WebGL water shader (canvas full-bleed Act VI) ═══
-  (function waterShader() {
+  // ═══ Defer helper — wait for dawn intro to finish before kicking heavy inits ═══
+  const dawnEl = document.getElementById('dawn');
+  const dawnActive = dawnEl && sessionStorage.getItem('bliss_dawn_seen') !== '1' &&
+                     !new URLSearchParams(location.search).get('intro') &&
+                     window.scrollY <= 100 ||
+                     new URLSearchParams(location.search).get('intro') === '1';
+  const afterIntro = (cb) => {
+    const idle = (fn) => (window.requestIdleCallback ? requestIdleCallback(fn, { timeout: 800 }) : setTimeout(fn, 80));
+    if (!dawnActive) { idle(cb); return; }
+    // Wait for dawn fade-out + small buffer
+    setTimeout(() => idle(cb), 5400);
+  };
+
+  // ═══ Nivel 3 · WebGL water shader (canvas full-bleed Act VI) — DEFERRED ═══
+  afterIntro(function waterShader() {
     const cv = document.getElementById('waterCanvas');
     if (!cv) return;
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -3666,7 +3697,7 @@
       });
     }, { threshold: 0.05 });
     if (host) io.observe(host);
-  })();
+  });
 
   // ═══ Nivel 3 · Hora local cambia la paleta cálida (--gold) ═══
   (function timeAdaptivePalette() {
@@ -3685,8 +3716,8 @@
     root.setAttribute('data-tod', hh < 9 ? 'dawn' : hh < 16 ? 'day' : hh < 19 ? 'dusk' : hh < 22 ? 'evening' : 'night');
   })();
 
-  // ═══ Nivel 3 · Audio spatial — pan según sección visible ═══
-  (function audioSpatial() {
+  // ═══ Nivel 3 · Audio spatial — pan según sección visible — DEFERRED ═══
+  afterIntro(function audioSpatial() {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let panner = null;
     const ensurePanner = () => {
@@ -3723,7 +3754,7 @@
       }, { threshold: 0.4 });
       obs.observe(el);
     });
-  })();
+  });
 
   // ═══ Nivel 3 · Easter egg konami ═══
   (function konami() {
@@ -3765,8 +3796,8 @@
     }
   })();
 
-  // ═══ Nivel 3 · Scroll-driven brand film (currentTime atado al scroll en su sección) ═══
-  (function scrollDrivenFilm() {
+  // ═══ Nivel 3 · Scroll-driven brand film (currentTime atado al scroll en su sección) — DEFERRED ═══
+  afterIntro(function scrollDrivenFilm() {
     if (matchMedia('(pointer: coarse)').matches) return; // mantengo autoplay en mobile
     const section = document.querySelector('.brand-film');
     const video = section && section.querySelector('video');
@@ -3793,7 +3824,7 @@
       update();
     };
     if (video.readyState >= 1) ready(); else video.addEventListener('loadedmetadata', ready);
-  })();
+  });
 
   // ═══ Gallery progress bar — reflects scroll position of rail ═══
   (function galleryProgress() {
@@ -3810,8 +3841,8 @@
     update();
   })();
 
-  // ═══ Language toggle EN/ES — display headers only ═══
-  (function langToggle() {
+  // ═══ Language toggle EN/ES — display headers only — DEFERRED ═══
+  afterIntro(function langToggle() {
     const btn = document.getElementById('langToggle');
     if (!btn) return;
 
@@ -3932,10 +3963,10 @@
       try { localStorage.setItem('bliss_lang', next); } catch (_) {}
       apply(next);
     });
-  })();
+  });
 
-  // ═══ Site plan — animate land + points, tooltip on POI ═══
-  (function sitePlan() {
+  // ═══ Site plan — animate land + points, tooltip on POI — DEFERRED ═══
+  afterIntro(function sitePlan() {
     const sp = document.querySelector('.site-plan');
     if (!sp) return;
     const obs = new IntersectionObserver((entries) => {
@@ -3980,10 +4011,10 @@
       pt.addEventListener('blur', hideTip);
       pt.setAttribute('tabindex', '0');
     });
-  })();
+  });
 
-  // ═══ Magnetic cursor — fine pointers only, follows mouse with damping ═══
-  (function magneticCursor() {
+  // ═══ Magnetic cursor — fine pointers only, RAF pauses when idle — DEFERRED ═══
+  afterIntro(function magneticCursor() {
     if (matchMedia('(pointer: coarse)').matches) return;
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const cur = document.createElement('div');
@@ -3996,25 +4027,25 @@
     let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
     let cx = tx, cy = ty;
     let dtx = tx, dty = ty;
-    let hover = false;
+    let running = false;
+    let lastMove = 0;
+
+    const kick = () => {
+      lastMove = performance.now();
+      if (!running) { running = true; requestAnimationFrame(loop); }
+    };
 
     window.addEventListener('pointermove', (e) => {
       tx = e.clientX; ty = e.clientY;
-      dtx = e.clientX; dty = e.clientY;
+      kick();
     }, { passive: true });
 
     const magneticTargets = '.cta, .audio-toggle, .brand-chip, .lang-toggle';
     document.addEventListener('pointerover', (e) => {
-      if (e.target.closest && e.target.closest(magneticTargets)) {
-        hover = true;
-        cur.classList.add('hover');
-      }
+      if (e.target.closest && e.target.closest(magneticTargets)) cur.classList.add('hover');
     });
     document.addEventListener('pointerout', (e) => {
-      if (e.target.closest && e.target.closest(magneticTargets)) {
-        hover = false;
-        cur.classList.remove('hover');
-      }
+      if (e.target.closest && e.target.closest(magneticTargets)) cur.classList.remove('hover');
     });
 
     const loop = () => {
@@ -4024,13 +4055,16 @@
       dty += (ty - dty) * 0.42;
       cur.style.transform = `translate3d(${cx - 18}px, ${cy - 18}px, 0)`;
       dot.style.transform = `translate3d(${dtx - 2}px, ${dty - 2}px, 0)`;
+      // Pause RAF if no movement for 800ms and we've settled
+      const idle = performance.now() - lastMove > 800;
+      const settled = Math.abs(tx - cx) < 0.3 && Math.abs(ty - cy) < 0.3;
+      if (idle && settled) { running = false; return; }
       requestAnimationFrame(loop);
     };
-    loop();
-  })();
+  });
 
-  // ═══ Hover tilt on dome slides + ctas (3D perspective subtle) ═══
-  (function hoverTilt() {
+  // ═══ Hover tilt on dome slides + ctas (3D perspective subtle) — DEFERRED ═══
+  afterIntro(function hoverTilt() {
     if (matchMedia('(pointer: coarse)').matches) return;
     const targets = document.querySelectorAll('.dome-slide, .pair-asset, .moment-asset');
     targets.forEach(el => {
@@ -4047,7 +4081,7 @@
         el.style.transform = '';
       });
     });
-  })();
+  });
 
   // ═══ Safety fallback — reveal elements visible after 2.5s ═══
   setTimeout(() => {

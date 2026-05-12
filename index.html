@@ -1342,6 +1342,274 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
+     v8 · CREATIVITY LAYER — big numbers, clip reveal, pinned, marquee
+     ───────────────────────────────────────────────────────────── */
+
+  /* WOW 1 · Big number callout (220m / 740 escalones / 80M años) */
+  .facts {
+    background: var(--void);
+    padding: 18vh var(--gutter) 18vh;
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .fact {
+    position: relative;
+    padding: 8vh 0;
+    border-top: 1px solid var(--hairline-soft);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .fact:last-child { border-bottom: 1px solid var(--hairline-soft); }
+  .fact-num {
+    font-family: 'Italiana', serif;
+    font-weight: 400;
+    font-size: clamp(120px, 36vw, 320px);
+    line-height: 0.82;
+    letter-spacing: -0.04em;
+    color: var(--gold);
+    text-shadow: 0 0 60px rgba(212,175,111,0.15);
+    /* clip-path reveal */
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: clip-path;
+  }
+  .fact.in .fact-num { clip-path: inset(0 0 0 0); }
+  .fact-label {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: clamp(11px, 2.6vw, 13px);
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 1.2s ease 0.4s, transform 1.2s ease 0.4s;
+  }
+  .fact-desc {
+    font-family: 'Italiana', serif;
+    font-style: italic;
+    font-size: clamp(17px, 4.2vw, 22px);
+    color: var(--bone-soft);
+    line-height: 1.4;
+    max-width: 32ch;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 1.2s ease 0.6s, transform 1.2s ease 0.6s;
+  }
+  .fact.in .fact-label,
+  .fact.in .fact-desc {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (min-width: 900px) {
+    .fact {
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      gap: 60px;
+      padding: 12vh 0;
+    }
+    .fact-num { font-size: clamp(180px, 22vw, 340px); }
+  }
+
+  /* WOW 2 · Manifesto clip-path line reveal */
+  .manifesto-line {
+    display: block;
+    overflow: hidden;
+  }
+  .manifesto-line > span {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+  .manifesto-line.in > span { transform: translateY(0); }
+  .manifesto-line:nth-child(1) > span { transition-delay: 0.0s; }
+  .manifesto-line:nth-child(2) > span { transition-delay: 0.18s; }
+  .manifesto-line:nth-child(3) > span { transition-delay: 0.36s; }
+  .manifesto-line:nth-child(4) > span { transition-delay: 0.54s; }
+  .manifesto-line:nth-child(5) > span { transition-delay: 0.72s; }
+  .manifesto-line:nth-child(6) > span { transition-delay: 0.90s; }
+
+  /* WOW 3 · Los Cinco Domos · horizontal pinned scroll */
+  .domes {
+    position: relative;
+    height: 500vh; /* tall scroll container so we can pin inside */
+    background: var(--void);
+  }
+  .domes-pin {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+  }
+  .domes-track {
+    display: flex;
+    height: 100%;
+    will-change: transform;
+    transition: transform 0.05s linear;
+  }
+  .dome-slide {
+    flex: 0 0 100vw;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--noir);
+  }
+  .dome-slide .dome-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    filter: var(--grade);
+  }
+  .dome-slide::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 65%, rgba(0,0,0,0.8) 100%);
+    z-index: 1;
+  }
+  .dome-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 var(--gutter);
+    color: var(--bone);
+  }
+  .dome-num {
+    font-family: 'Italiana', serif;
+    font-size: clamp(14px, 3vw, 16px);
+    letter-spacing: 0.42em;
+    color: var(--gold);
+    margin-bottom: 28px;
+  }
+  .dome-name {
+    font-family: 'Italiana', serif;
+    font-size: clamp(64px, 18vw, 180px);
+    line-height: 0.92;
+    letter-spacing: -0.005em;
+    color: var(--bone);
+    margin-bottom: 32px;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.6);
+  }
+  .dome-name em { font-style: italic; color: var(--gold-warm); }
+  .dome-meta {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--bone-soft);
+  }
+  /* Mobile fallback: horizontal pin works but on small screens we let it scroll natively */
+  @media (max-width: 640px) {
+    .domes { height: auto; }
+    .domes-pin { position: relative; height: auto; }
+    .domes-track {
+      flex-direction: column;
+      transform: none !important;
+    }
+    .dome-slide { flex: 0 0 100vh; height: 100vh; height: 100svh; }
+  }
+
+  /* Marquee horizontal infinito sutil */
+  .marquee {
+    position: relative;
+    background: var(--void);
+    padding: 32px 0;
+    overflow: hidden;
+    border-top: 1px solid var(--hairline-soft);
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 64px;
+    width: max-content;
+    animation: marquee-scroll 50s linear infinite;
+    will-change: transform;
+  }
+  .marquee-track span {
+    font-family: 'Italiana', serif;
+    font-style: italic;
+    font-size: clamp(20px, 4.2vw, 28px);
+    letter-spacing: 0.08em;
+    color: var(--bone-mute);
+    white-space: nowrap;
+  }
+  .marquee-track span em {
+    color: var(--gold);
+    font-style: italic;
+    margin: 0 4px;
+  }
+  @keyframes marquee-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
+
+  /* Drop cap — first letter ornamental */
+  .drop-cap::first-letter {
+    font-family: 'Italiana', serif;
+    font-size: 5.2em;
+    float: left;
+    line-height: 0.82;
+    margin: 0.06em 0.12em 0 -0.05em;
+    color: var(--gold);
+    font-weight: 400;
+  }
+
+  /* Vertical label — writing-mode rotated */
+  .vlabel {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: 10px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    position: absolute;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  /* Asymmetric tagline (italic thin + regular) */
+  .tag-asymmetric {
+    font-family: 'Italiana', serif;
+    line-height: 1.05;
+    letter-spacing: -0.005em;
+  }
+  .tag-asymmetric .a { font-style: italic; font-weight: 400; color: var(--gold-warm); }
+  .tag-asymmetric .b { font-style: normal; color: var(--bone); margin-left: 0.1em; }
+
+  /* Character reveal — [data-split] */
+  [data-split] { display: inline-block; }
+  [data-split] .ch {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+  [data-split].in .ch { transform: translateY(0); }
+
+  /* ─────────────────────────────────────────────────────────────
      PRINT — clean dossier output
      ───────────────────────────────────────────────────────────── */
   @media print {
@@ -1448,6 +1716,41 @@
     </p>
   </div>
   <div class="folio"><em>01</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- WOW 1 · FACTS · big number callouts de la Piedra -->
+<section class="act facts" aria-label="Piedra del Peñol facts">
+  <div class="fact">
+    <span class="fact-num"><span data-count="220">0</span></span>
+    <div>
+      <div class="fact-label">Metros · La Piedra</div>
+      <div class="fact-desc">Monolito de granito frente a Bliss — 80 millones de años de roca limpia.</div>
+    </div>
+  </div>
+  <div class="fact">
+    <span class="fact-num"><span data-count="740">0</span></span>
+    <div>
+      <div class="fact-label">Escalones · Una grieta</div>
+      <div class="fact-desc">La primera escalada fue en 1954. Hoy se sube en quince minutos — y se mira desde el domo.</div>
+    </div>
+  </div>
+  <div class="fact">
+    <span class="fact-num"><span data-count="78">0</span> <em style="font-style:italic;font-family:'Italiana',serif;color:var(--gold-warm);font-size:0.5em;letter-spacing:0;">km</em></span>
+    <div>
+      <div class="fact-label">Distancia · Desde Medellín</div>
+      <div class="fact-desc">Una hora y media en carro · veinte minutos en helicóptero.</div>
+    </div>
+  </div>
+  <div class="folio"><em>01</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- Marquee de transición -->
+<section class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>B&middot;L&middot;I&middot;S&middot;S <em>·</em> Guatapé <em>·</em> Antioquia <em>·</em> MMXXVI <em>·</em> Extreme Happiness <em>·</em></span>
+    <span>B&middot;L&middot;I&middot;S&middot;S <em>·</em> Guatapé <em>·</em> Antioquia <em>·</em> MMXXVI <em>·</em> Extreme Happiness <em>·</em></span>
+    <span>B&middot;L&middot;I&middot;S&middot;S <em>·</em> Guatapé <em>·</em> Antioquia <em>·</em> MMXXVI <em>·</em> Extreme Happiness <em>·</em></span>
+  </div>
 </section>
 
 <!-- Diptych: aerial overview + club house establishing -->
@@ -1586,6 +1889,55 @@
   <div class="folio"><em>04</em> <span class="of">/ 09</span></div>
 </section>
 
+<!-- WOW 3 · Los Cinco Domos · horizontal pinned scroll -->
+<section class="domes" id="domes" aria-label="Los cinco domos">
+  <div class="domes-pin">
+    <div class="domes-track" id="domesTrack">
+      <article class="dome-slide">
+        <div class="dome-bg" style="background-image:url('bliss-assets/14_dome-interior-view-v.jpg')"></div>
+        <div class="dome-content">
+          <div class="dome-num">01 / 05</div>
+          <h3 class="dome-name"><em>Cristal</em></h3>
+          <div class="dome-meta">Signature · Jacuzzi privado</div>
+        </div>
+      </article>
+      <article class="dome-slide">
+        <div class="dome-bg" style="background-image:url('bliss-assets/06_glamping-domes-slope-v.jpg')"></div>
+        <div class="dome-content">
+          <div class="dome-num">02 / 05</div>
+          <h3 class="dome-name">Aire</h3>
+          <div class="dome-meta">Ladera alta · Cielo abierto</div>
+        </div>
+      </article>
+      <article class="dome-slide">
+        <div class="dome-bg" style="background-image:url('bliss-assets/13_dome-moon-lake-v.jpg')"></div>
+        <div class="dome-content">
+          <div class="dome-num">03 / 05</div>
+          <h3 class="dome-name"><em>Agua</em></h3>
+          <div class="dome-meta">Acceso directo · Embalse</div>
+        </div>
+      </article>
+      <article class="dome-slide">
+        <div class="dome-bg" style="background:radial-gradient(ellipse at center, #2A1810 0%, #0A0606 70%);"></div>
+        <div class="dome-content">
+          <div class="dome-num">04 / 05</div>
+          <h3 class="dome-name">Tierra</h3>
+          <div class="dome-meta">Materia · Raíz</div>
+        </div>
+      </article>
+      <article class="dome-slide">
+        <div class="dome-bg" style="background-image:url('bliss-assets/11_sunset-dome-silhouette-v.jpg')"></div>
+        <div class="dome-content">
+          <div class="dome-num">05 / 05</div>
+          <h3 class="dome-name"><em>Fuego</em></h3>
+          <div class="dome-meta">Atardecer · Silueta</div>
+        </div>
+      </article>
+    </div>
+  </div>
+  <div class="folio"><em>04</em> <span class="of">/ 09</span></div>
+</section>
+
 <section class="act chapter reverse">
   <div class="chapter-asset v">
     <img src="bliss-assets/14_dome-interior-view-v.jpg" loading="lazy"
@@ -1692,7 +2044,7 @@
     <p class="signature reveal">
       La mesa no compite con el paisaje. Lo extiende.
     </p>
-    <p class="body reveal">
+    <p class="body drop-cap reveal">
       Cocina antioqueña reinterpretada con técnica contemporánea y producto local. Menús privados para grupo cerrado — <b>brunch sobre el muelle, almuerzo al sol, cena de tiempos después del atardecer.</b> El chef recibe el brief de la anfitriona y compone la noche.
     </p>
     <p class="body reveal">
@@ -1768,8 +2120,12 @@
   <div class="manifesto-eyebrow eyebrow">Manifesto</div>
   <img class="manifesto-tree" src="bliss-assets/tree-transparent.png"
        alt="Bliss · símbolo">
-  <h2 class="manifesto-headline reveal">
-    Bliss no es un hotel.<br>Es <em>la casa</em><br>que se renta<br>cuando hay algo<br><em>que celebrar.</em>
+  <h2 class="manifesto-headline">
+    <span class="manifesto-line"><span>Bliss no es un hotel.</span></span>
+    <span class="manifesto-line"><span>Es <em>la casa</em></span></span>
+    <span class="manifesto-line"><span>que se renta</span></span>
+    <span class="manifesto-line"><span>cuando hay algo</span></span>
+    <span class="manifesto-line"><span><em>que celebrar.</em></span></span>
   </h2>
   <div class="manifesto-rule"></div>
   <p class="manifesto-body reveal">
@@ -1791,6 +2147,9 @@
   <h2 class="closing-line reveal">
     La casa ya existe.<br><em>Falta la ocasión.</em>
   </h2>
+  <p class="tag-asymmetric reveal" style="font-size: clamp(20px, 5vw, 28px); margin: 0 0 28px; max-width:24ch;">
+    <span class="a">Happiness,</span><span class="b">Behind Closed Doors.</span>
+  </p>
   <div class="closing-rule"></div>
   <div class="cta-group">
     <a class="cta primary"
@@ -1932,11 +2291,88 @@
   }
   window.addEventListener('scroll', onScroll, { passive: true });
 
+  // ═══ FACTS counter animation — 0 → target ═══
+  const animateCount = (el, target, dur = 1800) => {
+    const start = performance.now();
+    const tick = (now) => {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target).toLocaleString('es');
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const factObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      const num = e.target.querySelector('[data-count]');
+      if (num && !num.dataset.done) {
+        num.dataset.done = '1';
+        animateCount(num, parseInt(num.dataset.count, 10));
+      }
+      factObs.unobserve(e.target);
+    });
+  }, { threshold: 0.35 });
+  document.querySelectorAll('.fact').forEach(el => factObs.observe(el));
+
+  // ═══ MANIFESTO line reveal ═══
+  const lineObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const lines = e.target.parentElement.querySelectorAll('.manifesto-line');
+        lines.forEach(l => l.classList.add('in'));
+        lineObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.35 });
+  const firstLine = document.querySelector('.manifesto-line');
+  if (firstLine) lineObs.observe(firstLine);
+
+  // ═══ HORIZONTAL PINNED DOMES ═══
+  (function pinnedDomes() {
+    const section = document.getElementById('domes');
+    const track = document.getElementById('domesTrack');
+    if (!section || !track) return;
+    if (window.matchMedia('(max-width: 640px)').matches) return; // mobile uses native vertical scroll
+
+    const slideCount = track.children.length;
+    const trackWidth = (slideCount - 1) * 100; // % of viewport-w to translate
+
+    let ticking = false;
+    const update = () => {
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // 0 when section top hits top of viewport, 1 when section bottom hits bottom of viewport
+      const total = section.offsetHeight - vh;
+      const scrolled = -rect.top;
+      const progress = Math.max(0, Math.min(1, scrolled / total));
+      track.style.transform = `translate3d(-${progress * trackWidth}vw, 0, 0)`;
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+    update();
+  })();
+
   // ═══ Safety fallback — reveal elements visible after 2.5s ═══
   setTimeout(() => {
     document.querySelectorAll('.reveal:not(.in)').forEach(el => el.classList.add('in'));
     document.querySelectorAll('.happen:not(.in)').forEach(el => el.classList.add('in'));
     document.querySelectorAll('.chapter-break:not(.in)').forEach(el => el.classList.add('in'));
+    document.querySelectorAll('.fact:not(.in)').forEach(el => {
+      el.classList.add('in');
+      const num = el.querySelector('[data-count]');
+      if (num && !num.dataset.done) {
+        num.dataset.done = '1';
+        num.textContent = parseInt(num.dataset.count, 10).toLocaleString('es');
+      }
+    });
+    document.querySelectorAll('.manifesto-line:not(.in)').forEach(el => el.classList.add('in'));
   }, 3500);
 
   // Pause videos out of viewport (saves battery on mobile)

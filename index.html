@@ -995,12 +995,320 @@
   }
 
   /* ─────────────────────────────────────────────────────────────
+     DAWN INTRO · animación de amanecer al cargar
+     ───────────────────────────────────────────────────────────── */
+  .dawn {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--void);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Radial dawn glow — el "sol" que emerge desde abajo del centro */
+  .dawn-glow {
+    position: absolute;
+    bottom: -40vh;
+    left: 50%;
+    transform: translateX(-50%) scale(0.4);
+    width: 140vh;
+    height: 140vh;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+      rgba(229,197,137,0.55) 0%,
+      rgba(212,175,111,0.30) 18%,
+      rgba(168,136,76,0.16) 35%,
+      rgba(168,136,76,0.04) 55%,
+      transparent 75%);
+    filter: blur(20px);
+    opacity: 0;
+    pointer-events: none;
+    animation: dawn-glow-rise 4.2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  }
+  @keyframes dawn-glow-rise {
+    0% { opacity: 0; transform: translateX(-50%) translateY(20vh) scale(0.4); }
+    35% { opacity: 0.45; transform: translateX(-50%) translateY(8vh) scale(0.72); }
+    65% { opacity: 0.85; transform: translateX(-50%) translateY(0) scale(0.95); }
+    100% { opacity: 0.92; transform: translateX(-50%) translateY(-4vh) scale(1.05); }
+  }
+
+  /* Tree of life — emerge desde abajo con scale + brillo */
+  .dawn-tree {
+    position: relative;
+    z-index: 2;
+    width: clamp(96px, 26vw, 168px);
+    height: auto;
+    opacity: 0;
+    transform: translateY(40px) scale(0.6);
+    filter: brightness(0) drop-shadow(0 0 0 rgba(212,175,111,0));
+    animation: dawn-tree-rise 3.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.7s forwards;
+  }
+  @keyframes dawn-tree-rise {
+    0%   { opacity: 0; transform: translateY(40px) scale(0.6);
+           filter: brightness(0.0) drop-shadow(0 0 0 rgba(212,175,111,0)); }
+    25%  { opacity: 0.4; transform: translateY(20px) scale(0.78);
+           filter: brightness(0.4) drop-shadow(0 0 8px rgba(212,175,111,0.2)); }
+    65%  { opacity: 1; transform: translateY(0) scale(1);
+           filter: brightness(1) drop-shadow(0 0 24px rgba(229,197,137,0.55)); }
+    100% { opacity: 1; transform: translateY(0) scale(1);
+           filter: brightness(1) drop-shadow(0 0 14px rgba(229,197,137,0.35)); }
+  }
+
+  /* Wordmark BLISS — letras aparecen escalonadas con blur-to-clear */
+  .dawn-wordmark {
+    position: relative;
+    z-index: 2;
+    margin-top: 36px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 200;
+    font-size: clamp(28px, 7vw, 56px);
+    letter-spacing: 0.42em;
+    color: var(--bone);
+    text-transform: uppercase;
+    display: flex;
+    gap: 0;
+    text-shadow: 0 0 30px rgba(229,197,137,0.0);
+  }
+  .dawn-wordmark span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(8px);
+    animation: dawn-letter 1.0s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  }
+  .dawn-wordmark span:nth-child(1) { animation-delay: 2.1s; }
+  .dawn-wordmark span:nth-child(2) { animation-delay: 2.18s; color: var(--gold); }
+  .dawn-wordmark span:nth-child(3) { animation-delay: 2.26s; }
+  .dawn-wordmark span:nth-child(4) { animation-delay: 2.34s; color: var(--gold); }
+  .dawn-wordmark span:nth-child(5) { animation-delay: 2.42s; }
+  .dawn-wordmark span:nth-child(6) { animation-delay: 2.50s; color: var(--gold); }
+  .dawn-wordmark span:nth-child(7) { animation-delay: 2.58s; }
+  .dawn-wordmark span:nth-child(8) { animation-delay: 2.66s; color: var(--gold); }
+  .dawn-wordmark span:nth-child(9) { animation-delay: 2.74s; }
+  @keyframes dawn-letter {
+    0%   { opacity: 0; transform: translateY(8px); filter: blur(8px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  .dawn-tagline {
+    position: relative;
+    z-index: 2;
+    margin-top: 28px;
+    font-family: 'Italiana', serif;
+    font-style: italic;
+    font-size: clamp(13px, 3.2vw, 17px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-warm);
+    opacity: 0;
+    transform: translateY(6px);
+    animation: dawn-tagline-rise 1.2s ease-out 3.2s forwards;
+  }
+  @keyframes dawn-tagline-rise {
+    0%   { opacity: 0; transform: translateY(6px); }
+    100% { opacity: 0.92; transform: translateY(0); }
+  }
+
+  /* Subtle skip hint */
+  .dawn-skip {
+    position: absolute;
+    bottom: calc(30px + env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: 9.5px;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: rgba(212,175,111,0.55);
+    opacity: 0;
+    animation: dawn-skip-fade 1.2s ease-out 3.6s forwards;
+  }
+  @keyframes dawn-skip-fade {
+    0%   { opacity: 0; }
+    100% { opacity: 0.7; }
+  }
+
+  /* Exit — desvanece y escala hacia adentro como si "abriera" al hero */
+  .dawn.exit {
+    animation: dawn-exit 1.1s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+    pointer-events: none;
+  }
+  @keyframes dawn-exit {
+    0%   { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.08); }
+  }
+
+  /* Reduced motion: replace animation with simple fade */
+  @media (prefers-reduced-motion: reduce) {
+    .dawn-glow { animation: none; opacity: 0.5; transform: translateX(-50%) translateY(-4vh) scale(1.05); }
+    .dawn-tree { animation: none; opacity: 1; transform: none; filter: brightness(1); }
+    .dawn-wordmark span { animation: none; opacity: 1; transform: none; filter: none; }
+    .dawn-tagline { animation: none; opacity: 0.92; transform: none; }
+    .dawn-skip { animation: none; opacity: 0.7; }
+    .dawn.exit { animation: dawn-exit-quick 0.3s ease forwards; }
+    @keyframes dawn-exit-quick { to { opacity: 0; } }
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     STICKY BRAND CHIP · marca pequeña fija top-left después del hero
+     ───────────────────────────────────────────────────────────── */
+  .brand-chip {
+    position: fixed;
+    top: 22px;
+    left: 22px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(212,175,111,0.22);
+    border-radius: 100px;
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .brand-chip.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .brand-chip img {
+    width: 20px;
+    height: 20px;
+  }
+  .brand-chip span {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--bone);
+  }
+  @media (min-width: 900px) {
+    .brand-chip { top: 28px; left: 32px; padding: 10px 18px; gap: 12px; }
+    .brand-chip img { width: 24px; height: 24px; }
+    .brand-chip span { font-size: 11px; }
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     SCROLL PROGRESS · línea vertical sutil derecha
+     ───────────────────────────────────────────────────────────── */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    z-index: 99;
+    pointer-events: none;
+  }
+  .scroll-progress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, var(--gold-warm), var(--gold-deep));
+    height: var(--progress, 0%);
+    transition: height 0.1s linear;
+    box-shadow: 0 0 8px rgba(212,175,111,0.45);
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     SCROLL-DRIVEN · ken burns + parallax + stagger
+     ───────────────────────────────────────────────────────────── */
+  /* Ken Burns suave en chapter assets cuando entran al viewport */
+  .chapter-asset img,
+  .moment-asset img {
+    transition: transform 6s ease-out;
+    transform: scale(1.02);
+  }
+  .chapter-asset.in-view img,
+  .moment-asset.in-view img {
+    transform: scale(1.08);
+  }
+
+  /* Stagger en happens list */
+  .happens-list .happen {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .happens-list .happen.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .happens-list .happen:nth-child(1).in { transition-delay: 0s; }
+  .happens-list .happen:nth-child(2).in { transition-delay: 0.12s; }
+  .happens-list .happen:nth-child(3).in { transition-delay: 0.24s; }
+  .happens-list .happen:nth-child(4).in { transition-delay: 0.36s; }
+  .happens-list .happen:nth-child(5).in { transition-delay: 0.48s; }
+
+  /* Chapter break entrance — fade + slight letter expand */
+  .chapter-break .roman {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+  }
+  .chapter-break .label-es {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 1.0s ease 0.15s, transform 1.0s ease 0.15s;
+  }
+  .chapter-break .label-en {
+    opacity: 0;
+    letter-spacing: 0.6em;
+    transition: opacity 1.0s ease 0.3s, letter-spacing 1.2s ease 0.3s;
+  }
+  .chapter-break .rule {
+    transform: scaleX(0);
+    transition: transform 1.0s ease 0.4s;
+  }
+  .chapter-break.in .roman,
+  .chapter-break.in .label-es {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .chapter-break.in .label-en {
+    opacity: 1;
+    letter-spacing: 0.42em;
+  }
+  .chapter-break.in .rule {
+    transform: scaleX(1);
+  }
+
+  /* Manifesto tree subtle breathing */
+  .manifesto-tree {
+    animation: breathing 6s ease-in-out infinite;
+  }
+  @keyframes breathing {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(212,175,111,0)); }
+    50% { transform: scale(1.04); filter: drop-shadow(0 0 20px rgba(212,175,111,0.25)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .chapter-asset img, .moment-asset img { transition: none; transform: none; }
+    .chapter-asset.in-view img, .moment-asset.in-view img { transform: none; }
+    .manifesto-tree { animation: none; }
+  }
+
+  /* ─────────────────────────────────────────────────────────────
      PRINT — clean dossier output
      ───────────────────────────────────────────────────────────── */
   @media print {
     body { background: #fff; color: #1a1a1a; font-size: 11pt; }
     body::before { display: none; }
-    video, .cta { display: none !important; }
+    video, .cta, .dawn, .brand-chip, .scroll-progress { display: none !important; }
     section, .hero, .chapter, .moment, .happens, .table-chapter,
     .manifesto, .closing, .chapter-break, .diptych {
       page-break-inside: avoid;
@@ -1024,6 +1332,28 @@
 </style>
 </head>
 <body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     DAWN INTRO · animación de amanecer al cargar
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="dawn" id="dawn" role="presentation" aria-hidden="true">
+  <div class="dawn-glow"></div>
+  <img class="dawn-tree" src="bliss-assets/favicon.png" alt="">
+  <h1 class="dawn-wordmark">
+    <span>B</span><span>·</span><span>L</span><span>·</span><span>I</span><span>·</span><span>S</span><span>·</span><span>S</span>
+  </h1>
+  <div class="dawn-tagline">Extreme Happiness</div>
+  <div class="dawn-skip">Toca para entrar</div>
+</div>
+
+<!-- Sticky brand chip — appears after hero scroll -->
+<div class="brand-chip" id="brandChip">
+  <img src="bliss-assets/favicon.png" alt="">
+  <span>B&middot;L&middot;I&middot;S&middot;S</span>
+</div>
+
+<!-- Scroll progress · línea vertical derecha -->
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
 <!-- ═══════════════════════════════════════════════════════════════
      HERO · video aéreo del lugar
@@ -1443,7 +1773,48 @@
 </section>
 
 <script>
-  // Reveal text on scroll — never block visibility of logos or CTAs
+  // ═══ DAWN INTRO — amanecer ═══
+  (function dawnSequence() {
+    const dawn = document.getElementById('dawn');
+    if (!dawn) return;
+
+    // Skip if returning in same session OR if user already scrolled (deep link)
+    const alreadyShown = sessionStorage.getItem('bliss_dawn_seen');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (alreadyShown === '1' || window.scrollY > 100) {
+      dawn.remove();
+      return;
+    }
+
+    // Lock scroll while intro plays
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+
+    const exit = () => {
+      if (dawn.classList.contains('exit')) return;
+      dawn.classList.add('exit');
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      sessionStorage.setItem('bliss_dawn_seen', '1');
+      setTimeout(() => dawn.remove(), 1200);
+    };
+
+    // Auto-exit after sequence completes (~4.6s) — reduced motion exits at 1.2s
+    setTimeout(exit, reduced ? 1200 : 4600);
+    // Skip on tap / click anywhere
+    dawn.addEventListener('click', exit);
+    dawn.addEventListener('touchstart', exit, { passive: true });
+    // Skip on key (desktop)
+    document.addEventListener('keydown', function once(e) {
+      if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+        exit();
+        document.removeEventListener('keydown', once);
+      }
+    });
+  })();
+
+  // ═══ REVEAL on scroll — text only, never blocks logos or CTAs ═══
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -1454,11 +1825,73 @@
   }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  // Safety fallback — if observer doesn't fire (JS disabled, edge case),
-  // ensure all reveal elements become visible after 2.5s of page load
+  // ═══ CHAPTER BREAKS — animated entrance ═══
+  const breakObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        breakObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.chapter-break').forEach(el => breakObs.observe(el));
+
+  // ═══ KEN BURNS — chapter assets scale slowly while in view ═══
+  const burnsObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+      } else {
+        e.target.classList.remove('in-view');
+      }
+    });
+  }, { threshold: 0.25 });
+  document.querySelectorAll('.chapter-asset, .moment-asset').forEach(el => burnsObs.observe(el));
+
+  // ═══ HAPPENS LIST — stagger entrance ═══
+  const happenObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        happenObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.happens-list .happen').forEach(el => happenObs.observe(el));
+
+  // ═══ SCROLL PROGRESS BAR ═══
+  const progress = document.getElementById('scrollProgress');
+  const chip = document.getElementById('brandChip');
+  const hero = document.getElementById('hero');
+  let ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const scroll = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = Math.min(100, (scroll / total) * 100);
+      progress.style.setProperty('--progress', pct + '%');
+      // Brand chip visibility — after hero is mostly scrolled past
+      if (hero && chip) {
+        const heroBottom = hero.getBoundingClientRect().bottom;
+        if (heroBottom < window.innerHeight * 0.35) {
+          chip.classList.add('visible');
+        } else {
+          chip.classList.remove('visible');
+        }
+      }
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // ═══ Safety fallback — reveal elements visible after 2.5s ═══
   setTimeout(() => {
     document.querySelectorAll('.reveal:not(.in)').forEach(el => el.classList.add('in'));
-  }, 2500);
+    document.querySelectorAll('.happen:not(.in)').forEach(el => el.classList.add('in'));
+    document.querySelectorAll('.chapter-break:not(.in)').forEach(el => el.classList.add('in'));
+  }, 3500);
 
   // Pause videos out of viewport (saves battery on mobile)
   const vObs = new IntersectionObserver((entries) => {

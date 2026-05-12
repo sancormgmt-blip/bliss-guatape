@@ -2858,14 +2858,39 @@
       btn.setAttribute('aria-pressed', 'false');
     };
 
+    // Manual toggle — also flags session preference so future gestures don't override
     btn.addEventListener('click', () => {
-      if (playing) stop(); else start();
+      if (playing) {
+        stop();
+        sessionStorage.setItem('bliss_audio_off', '1');
+      } else {
+        start();
+        sessionStorage.setItem('bliss_audio_off', '0');
+      }
     });
 
     // Auto-pause if tab hidden
     document.addEventListener('visibilitychange', () => {
       if (document.hidden && playing) stop();
     });
+
+    // ── Autoplay (best-effort) + resume-on-first-gesture fallback ──
+    const userOptedOut = () => sessionStorage.getItem('bliss_audio_off') === '1';
+    if (!userOptedOut()) {
+      // Best effort: try immediately; many browsers will accept on repeat visits / high MEI
+      try { start(); } catch (_) {}
+      const gestureEvents = ['pointerdown', 'touchstart', 'keydown', 'wheel', 'scroll'];
+      const onGesture = () => {
+        gestureEvents.forEach(ev => window.removeEventListener(ev, onGesture, { capture: true }));
+        if (userOptedOut()) return;
+        if (ctx && ctx.state === 'suspended') {
+          ctx.resume().catch(() => {});
+        } else if (!playing) {
+          start();
+        }
+      };
+      gestureEvents.forEach(ev => window.addEventListener(ev, onGesture, { capture: true, passive: true }));
+    }
   })();
 
   // ═══ Safety fallback — reveal elements visible after 2.5s ═══

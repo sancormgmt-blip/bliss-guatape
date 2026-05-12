@@ -350,12 +350,12 @@
   .site-plan.in-view .sp-piedra { opacity: 1; }
   .sp-line { stroke-dasharray: 200; stroke-dashoffset: 200; transition: stroke-dashoffset 2s ease 1.6s; }
   .site-plan.in-view .sp-line { stroke-dashoffset: 0; }
-  /* Hint visibility split */
-  .sp-hint-desktop { display: none; }
-  .sp-hint-touch { display: inline; }
-  @media (hover: hover) and (pointer: fine) {
-    .sp-hint-desktop { display: inline; }
-    .sp-hint-touch { display: none; }
+  /* Hint visibility split — default desktop, override on any touch capability */
+  .sp-hint-desktop { display: inline; }
+  .sp-hint-touch { display: none; }
+  @media (hover: none), (pointer: coarse), (max-width: 768px) {
+    .sp-hint-desktop { display: none; }
+    .sp-hint-touch { display: inline; }
   }
 
   /* SVG element-by-element reveal animations */

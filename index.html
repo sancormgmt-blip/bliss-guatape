@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Bliss — Extreme Happiness · Guatapé</title>
+<link rel="icon" type="image/png" href="bliss-assets/favicon.png">
+<link rel="apple-touch-icon" href="bliss-assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@200;300;400;500&display=swap" rel="stylesheet">
+<noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+<meta property="og:title" content="Bliss · Extreme Happiness — Guatapé">
+<meta property="og:description" content="Un territorio sobre el embalse de Guatapé. Club, glamping, gastronomía y agua.">
+<meta property="og:image" content="bliss-assets/09_aerial-turquoise-island-v.jpg">
+<meta property="og:type" content="website">
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     TOKENS · Bliss design system
+     Real brand: black + gold + bone · Italiana display + Manrope sans
+     ───────────────────────────────────────────────────────────── */
+  :root {
+    --void: #000000;
+    --noir: #0A0A0A;
+    --noir-soft: #141414;
+    --bone: #F5F1E8;
+    --bone-soft: #DDD7C9;
+    --bone-mute: #9C968A;
+    --gold: #D4AF6F;
+    --gold-warm: #E5C589;
+    --gold-deep: #A8884C;
+    --gold-mute: rgba(212,175,111,0.22);
+    --hairline: rgba(212,175,111,0.20);
+    --hairline-soft: rgba(245,241,232,0.08);
+    --gradient-bottom: linear-gradient(180deg,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0) 45%,
+      rgba(0,0,0,0.45) 75%,
+      rgba(0,0,0,0.85) 100%);
+    --gradient-top: linear-gradient(180deg,
+      rgba(0,0,0,0.55) 0%,
+      rgba(0,0,0,0.1) 30%,
+      rgba(0,0,0,0) 55%,
+      rgba(0,0,0,0.85) 100%);
+    --gutter: 24px;
+    --gutter-d: 80px;
+    --t-display: clamp(48px, 16vw, 132px);
+    --t-h1: clamp(40px, 10vw, 86px);
+    --t-h2: clamp(26px, 7vw, 48px);
+    --t-h3: clamp(20px, 5vw, 30px);
+    --t-lead: clamp(17px, 4vw, 21px);
+    --t-body: clamp(14.5px, 3.8vw, 16px);
+    --t-eyebrow: clamp(9.5px, 2.4vw, 11px);
+    --t-folio: clamp(9.5px, 2.4vw, 10.5px);
+    /* Unified cinema color-grade applied to every photo */
+    --grade: saturate(0.92) contrast(1.04) brightness(0.97) sepia(0.05) hue-rotate(-4deg);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Manrope', system-ui, sans-serif;
+    font-weight: 300;
+    background: var(--void);
+    color: var(--bone);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+    font-feature-settings: "ss01";
+  }
+
+  /* Selection style — luxury detail */
+  ::selection {
+    background: var(--gold);
+    color: var(--void);
+  }
+  ::-moz-selection {
+    background: var(--gold);
+    color: var(--void);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  img, video { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ─────────────────────────────────────────────────────────────
+     PRIMITIVES · brand typography rules
+     ───────────────────────────────────────────────────────────── */
+  .serif {
+    font-family: 'Italiana', 'Cormorant Garamond', Georgia, serif;
+    font-weight: 400;
+  }
+  .display {
+    font-family: 'Italiana', serif;
+    font-size: var(--t-display);
+    line-height: 0.96;
+    letter-spacing: -0.005em;
+    color: var(--bone);
+  }
+
+  /* "B·L·I·S·S" — naming oficial con dots, letter-spacing real del brand */
+  .word-bliss {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 200;
+    text-transform: uppercase;
+    letter-spacing: 0.42em;
+    color: var(--bone);
+    white-space: nowrap;
+  }
+
+  .eyebrow {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: var(--t-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: 0.38em;
+    color: var(--gold);
+    display: inline-block;
+  }
+  .eyebrow .sep {
+    color: var(--gold-deep);
+    margin: 0 8px;
+  }
+  .eyebrow .en {
+    color: var(--gold-deep);
+    font-style: italic;
+    font-family: 'Italiana', serif;
+    letter-spacing: 0.18em;
+    text-transform: none;
+    margin-left: 10px;
+    font-size: 0.92em;
+  }
+
+  /* Folio counter (page number) — luxury hotel detail */
+  .folio {
+    position: absolute;
+    left: var(--gutter);
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    z-index: 4;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: var(--t-folio);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--bone-mute);
+    pointer-events: none;
+  }
+  .folio em {
+    font-style: italic;
+    font-family: 'Italiana', serif;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    font-size: 1.08em;
+  }
+  .folio .of { opacity: 0.45; }
+
+  /* ─────────────────────────────────────────────────────────────
+     SECTION SHELLS · uniform sizing
+     ───────────────────────────────────────────────────────────── */
+  section.act {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+    background: var(--void);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Cinema color-grade applied uniformly to every photo/video */
+  .asset img, .asset video,
+  .chapter-asset img, .chapter-asset video,
+  .pair-asset img, .moment-asset img,
+  .hero-media img, .hero-media video,
+  .interlude-media img, .interlude-media video {
+    filter: var(--grade);
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     HERO · video aéreo vertical · respeta su aspect ratio nativo
+     ───────────────────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+    background: var(--void);
+  }
+  .hero-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--void);
+  }
+  /* Mobile: fullbleed cover — el viewport mobile ya es ~9:16 */
+  .hero-media video,
+  .hero-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  /* Desktop: respeta el aspect ratio nativo del video vertical 9:16,
+     centra horizontalmente con bandas negras laterales — cine vertical */
+  @media (min-width: 900px) {
+    .hero-media video,
+    .hero-media img {
+      width: auto;
+      max-width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .hero-media::before,
+    .hero-media::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 28%;
+      background: linear-gradient(to right, var(--void) 30%, rgba(0,0,0,0));
+      z-index: 1;
+      pointer-events: none;
+    }
+    .hero-media::before { left: 0; }
+    .hero-media::after { right: 0; transform: scaleX(-1); }
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg,
+        rgba(0,0,0,0.55) 0%,
+        rgba(0,0,0,0.05) 28%,
+        rgba(0,0,0,0) 50%,
+        rgba(0,0,0,0.85) 100%);
+    z-index: 1;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    min-height: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 var(--gutter) calc(72px + env(safe-area-inset-bottom));
+    text-align: left;
+  }
+  .hero-eyebrow {
+    margin-bottom: 26px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--gold);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: var(--t-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .hero-title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 200;
+    font-size: clamp(48px, 17vw, 180px);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    line-height: 0.96;
+    color: var(--bone);
+    margin-bottom: 22px;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.55);
+  }
+  .hero-tagline {
+    font-family: 'Italiana', serif;
+    font-style: normal;
+    font-size: clamp(17px, 4.6vw, 24px);
+    color: var(--gold-warm);
+    letter-spacing: 0.04em;
+    margin-bottom: 32px;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.7);
+    max-width: 26ch;
+  }
+  .hero-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: 10.5px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(245,241,232,0.66);
+    padding-top: 20px;
+    border-top: 1px solid var(--hairline);
+  }
+  .hero-meta em {
+    font-style: italic;
+    font-family: 'Italiana', serif;
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: none;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     CHAPTER BREAK · pause to black between acts
+     ───────────────────────────────────────────────────────────── */
+  .chapter-break {
+    min-height: 40vh;
+    min-height: 40svh;
+    background: var(--void);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px var(--gutter);
+    gap: 28px;
+    position: relative;
+  }
+  .chapter-break .roman {
+    font-family: 'Italiana', serif;
+    font-size: clamp(56px, 14vw, 96px);
+    color: var(--gold);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+  }
+  .chapter-break .label-es {
+    font-family: 'Italiana', serif;
+    font-size: clamp(22px, 6vw, 40px);
+    color: var(--bone);
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+  }
+  .chapter-break .label-en {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: clamp(10px, 2.6vw, 12px);
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+  }
+  .chapter-break .rule {
+    width: 36px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.55;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     CHAPTER · standard scene (foto+texto) · mobile-first
+     ───────────────────────────────────────────────────────────── */
+  .chapter {
+    background: var(--void);
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+  .chapter-asset {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: var(--noir);
+    flex: 0 0 auto;
+  }
+  .chapter-asset.v { aspect-ratio: 9/16; }
+  .chapter-asset.h { aspect-ratio: 4/3; }
+  .chapter-asset.s { aspect-ratio: 4/5; }
+  .chapter-asset img,
+  .chapter-asset video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .chapter-text {
+    flex: 1 0 auto;
+    padding: 56px var(--gutter) 80px;
+    background: var(--void);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .chapter-text .eyebrow { margin-bottom: 22px; }
+  .chapter-text h2 {
+    font-family: 'Italiana', serif;
+    font-size: var(--t-h2);
+    line-height: 1.04;
+    letter-spacing: -0.005em;
+    color: var(--bone);
+    margin-bottom: 28px;
+    max-width: 18ch;
+  }
+  .chapter-text h2 em {
+    font-style: italic;
+    color: var(--gold);
+    font-family: 'Italiana', serif;
+  }
+  .chapter-text p.lead {
+    font-family: 'Italiana', serif;
+    font-size: var(--t-lead);
+    line-height: 1.4;
+    color: var(--bone-soft);
+    margin-bottom: 22px;
+    max-width: 32ch;
+  }
+  .chapter-text p.body {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: var(--t-body);
+    line-height: 1.72;
+    color: rgba(245,241,232,0.78);
+    max-width: 38ch;
+  }
+  .chapter-text p.body + p.body { margin-top: 14px; }
+  .chapter-text p.body b {
+    color: var(--gold-warm);
+    font-weight: 400;
+  }
+
+  /* Layered chapter — text over photo */
+  .chapter.layer { overflow: hidden; }
+  .chapter.layer .chapter-asset {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    z-index: 0;
+    flex: none;
+  }
+  .chapter.layer .chapter-asset::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-top);
+    pointer-events: none;
+  }
+  .chapter.layer .chapter-text {
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    margin-top: auto;
+    padding: 0 var(--gutter) calc(72px + env(safe-area-inset-bottom));
+    flex: 0 0 auto;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     DIPTYCH · 2 photos side by side (desktop) / stacked (mobile)
+     ───────────────────────────────────────────────────────────── */
+  .diptych {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+    background: var(--void);
+  }
+  /* Mobile: respect horizontal photo aspect — 16:10 reads natural */
+  .diptych .pair-asset {
+    position: relative;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    background: var(--noir);
+  }
+  .diptych .pair-asset img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .diptych-caption {
+    grid-column: 1 / -1;
+    padding: 56px var(--gutter) 72px;
+    text-align: center;
+  }
+  .diptych-caption .eyebrow { margin-bottom: 18px; }
+  .diptych-caption h2 {
+    font-family: 'Italiana', serif;
+    font-size: var(--t-h3);
+    line-height: 1.25;
+    color: var(--bone);
+    max-width: 28ch;
+    margin: 0 auto;
+  }
+  .diptych-caption h2 em { font-style: italic; color: var(--gold); }
+  .diptych-caption .em-rule {
+    display: inline-block;
+    width: 22px;
+    height: 1px;
+    background: var(--gold);
+    vertical-align: middle;
+    margin: 0 14px 8px;
+    opacity: 0.7;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     THE MOMENT · single photo, no text, full-bleed silence
+     Respect aspect ratio — verticals on desktop become centered windows
+     ───────────────────────────────────────────────────────────── */
+  .moment {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+    background: var(--void);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .moment-asset {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--void);
+  }
+  /* Mobile: fullbleed cover */
+  .moment-asset img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Desktop: if vertical asset, contain with side bands;
+     if horizontal asset, cover */
+  @media (min-width: 900px) {
+    .moment-asset.v img {
+      width: auto;
+      max-width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    /* Subtle side gradients only for vertical-on-desktop */
+    .moment-asset.v::before,
+    .moment-asset.v::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 18%;
+      background: linear-gradient(to right, var(--void), rgba(0,0,0,0));
+      z-index: 2;
+      pointer-events: none;
+    }
+    .moment-asset.v::before { left: 0; }
+    .moment-asset.v::after { right: 0; transform: scaleX(-1); }
+  }
+  .moment-asset::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.18) 0%,
+      rgba(0,0,0,0) 30%,
+      rgba(0,0,0,0) 70%,
+      rgba(0,0,0,0.4) 100%);
+    z-index: 1;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     TABLE · The Cuisine chapter — typography-led, sin foto-hero
+     ───────────────────────────────────────────────────────────── */
+  .table-chapter {
+    background: var(--noir);
+    padding: 100px var(--gutter) 110px;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  .table-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .table-inner .eyebrow { margin-bottom: 26px; }
+  .table-inner h2 {
+    font-family: 'Italiana', serif;
+    font-size: var(--t-h2);
+    line-height: 1.05;
+    letter-spacing: -0.005em;
+    color: var(--bone);
+    margin-bottom: 30px;
+    max-width: 16ch;
+  }
+  .table-inner h2 em { font-style: italic; color: var(--gold); }
+  .table-inner .signature {
+    font-family: 'Italiana', serif;
+    font-style: italic;
+    font-size: clamp(18px, 4.6vw, 24px);
+    color: var(--gold-warm);
+    line-height: 1.4;
+    padding: 20px 0;
+    margin-bottom: 28px;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    max-width: 36ch;
+  }
+  .table-inner p.body {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: var(--t-body);
+    line-height: 1.75;
+    color: rgba(245,241,232,0.82);
+    max-width: 44ch;
+    margin-bottom: 16px;
+  }
+  .table-inner p.body b { color: var(--gold-warm); font-weight: 400; }
+  .table-chef {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .table-chef .role {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: 10.5px;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--bone-mute);
+  }
+  .table-chef .name {
+    font-family: 'Italiana', serif;
+    font-size: clamp(22px, 5.4vw, 30px);
+    color: var(--bone);
+    letter-spacing: 0.01em;
+  }
+  .table-chef .name em { font-style: italic; color: var(--gold); }
+
+  /* ─────────────────────────────────────────────────────────────
+     WHAT HAPPENS · encuentros list
+     ───────────────────────────────────────────────────────────── */
+  .happens {
+    background: var(--void);
+    padding: 100px var(--gutter) 120px;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline-soft);
+    min-height: 100vh;
+    min-height: 100svh;
+    position: relative;
+  }
+  .happens-head {
+    text-align: center;
+    margin-bottom: 64px;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .happens-head .eyebrow { margin-bottom: 22px; }
+  .happens-head h2 {
+    font-family: 'Italiana', serif;
+    font-size: var(--t-h2);
+    line-height: 1.06;
+    color: var(--bone);
+    max-width: 18ch;
+    margin: 0 auto;
+  }
+  .happens-head h2 em { font-style: italic; color: var(--gold); }
+  .happens-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 760px;
+    margin: 0 auto;
+    border-top: 1px solid var(--hairline-soft);
+  }
+  .happen {
+    padding: 30px 4px;
+    border-bottom: 1px solid var(--hairline-soft);
+    display: grid;
+    grid-template-columns: 42px 1fr;
+    gap: 18px;
+    align-items: baseline;
+  }
+  .happen .num {
+    font-family: 'Italiana', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+  }
+  .happen h4 {
+    font-family: 'Italiana', serif;
+    font-size: clamp(22px, 5.4vw, 30px);
+    font-weight: 400;
+    color: var(--bone);
+    line-height: 1.1;
+    margin-bottom: 10px;
+    letter-spacing: -0.005em;
+  }
+  .happen h4 em {
+    font-style: italic;
+    color: var(--gold);
+    font-family: 'Italiana', serif;
+  }
+  .happen p {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: var(--t-body);
+    line-height: 1.65;
+    color: rgba(245,241,232,0.75);
+    max-width: 46ch;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     MANIFESTO · the brand statement, deferred to the end
+     ───────────────────────────────────────────────────────────── */
+  .manifesto {
+    background: var(--void);
+    padding: 120px var(--gutter);
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+  }
+  .manifesto-eyebrow {
+    margin-bottom: 38px;
+  }
+  .manifesto-tree {
+    width: clamp(54px, 14vw, 80px);
+    margin-bottom: 36px;
+    opacity: 0.95;
+  }
+  .manifesto-headline {
+    font-family: 'Italiana', serif;
+    font-size: clamp(32px, 9vw, 76px);
+    line-height: 1.02;
+    letter-spacing: -0.008em;
+    color: var(--bone);
+    margin-bottom: 36px;
+    max-width: 16ch;
+  }
+  .manifesto-headline em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .manifesto-rule {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 40px;
+    opacity: 0.65;
+  }
+  .manifesto-body {
+    font-family: 'Italiana', serif;
+    font-size: clamp(18px, 4.6vw, 22px);
+    line-height: 1.55;
+    color: var(--bone-soft);
+    max-width: 32ch;
+    margin: 0 auto 16px;
+  }
+  .manifesto-body em { font-style: italic; color: var(--gold-warm); }
+  .manifesto-tag {
+    margin-top: 44px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 200;
+    font-size: clamp(11px, 2.8vw, 13px);
+    text-transform: uppercase;
+    letter-spacing: 0.48em;
+    color: var(--gold);
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     CLOSING · contact, dual CTA, signature
+     ───────────────────────────────────────────────────────────── */
+  .closing {
+    background: var(--noir);
+    padding: 100px var(--gutter) 120px;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+  }
+  .closing-logo {
+    width: clamp(100px, 28vw, 160px);
+    margin-bottom: 40px;
+    opacity: 1;
+  }
+  .closing-line {
+    font-family: 'Italiana', serif;
+    font-size: clamp(22px, 5.4vw, 30px);
+    line-height: 1.36;
+    color: var(--bone);
+    max-width: 22ch;
+    margin: 0 auto 36px;
+  }
+  .closing-line em { font-style: italic; color: var(--gold); }
+  .closing-rule {
+    width: 36px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 44px;
+    opacity: 0.65;
+  }
+  .cta-group {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: stretch;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 56px;
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px 26px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.36em;
+    background: transparent;
+    transition: background 0.4s ease, color 0.4s ease, transform 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .cta.primary {
+    background: var(--gold);
+    color: var(--void);
+  }
+  .cta.primary:hover,
+  .cta.primary:focus-visible {
+    background: var(--gold-warm);
+    transform: translateY(-1px);
+  }
+  .cta.secondary:hover,
+  .cta.secondary:focus-visible {
+    background: var(--gold);
+    color: var(--void);
+  }
+  .cta:active { transform: translateY(0); opacity: 0.85; }
+  .cta .arr { transition: transform 0.4s ease; }
+  .cta:hover .arr { transform: translateX(4px); }
+  .closing-meta {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: 10.5px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--bone-mute);
+    line-height: 1.95;
+  }
+  .closing-meta a {
+    color: var(--gold);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .closing-meta .colophon {
+    margin-top: 20px;
+    font-style: italic;
+    font-family: 'Italiana', serif;
+    text-transform: none;
+    letter-spacing: 0.04em;
+    font-size: 11px;
+    color: var(--bone-mute);
+    opacity: 0.7;
+  }
+  .closing-meta .ed {
+    color: var(--gold);
+    font-family: 'Italiana', serif;
+    text-transform: none;
+    letter-spacing: 0.06em;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     REVEAL — text only, never logos or CTAs
+     Default opacity stays at 1 — animations only enhance, never block
+     ───────────────────────────────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 1.0s ease, transform 1.0s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Fallback: if JS off OR observer doesn't fire, ensure visibility within 2.5s */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; }
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     DESKTOP refinements
+     ───────────────────────────────────────────────────────────── */
+  @media (min-width: 900px) {
+    :root { --gutter: var(--gutter-d); }
+    .hero-content {
+      padding: 0 var(--gutter-d) 100px;
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .hero-title { font-size: clamp(96px, 11vw, 210px); }
+
+    .chapter {
+      flex-direction: row;
+      align-items: stretch;
+    }
+    .chapter-asset {
+      width: 60%;
+      aspect-ratio: auto;
+      min-height: 100svh;
+    }
+    .chapter-asset.h { width: 60%; }
+    .chapter.reverse { flex-direction: row-reverse; }
+    .chapter-text {
+      width: 40%;
+      padding: 100px var(--gutter-d);
+    }
+    .chapter.layer {
+      flex-direction: column;
+    }
+    .chapter.layer .chapter-asset {
+      width: 100%;
+      min-height: auto;
+    }
+    .chapter.layer .chapter-text {
+      width: 100%;
+      max-width: 720px;
+      padding: 0 var(--gutter-d) 120px;
+    }
+
+    .diptych {
+      grid-template-columns: 1fr 1fr;
+    }
+    .diptych .pair-asset {
+      aspect-ratio: 4/3;
+      min-height: 70svh;
+    }
+    .diptych-caption {
+      grid-column: 1 / -1;
+      padding: 70px var(--gutter-d) 90px;
+    }
+    .diptych-caption h2 { font-size: var(--t-h2); max-width: 30ch; }
+
+    .happens { padding: 140px var(--gutter-d); }
+    .happens-list {
+      grid-template-columns: 1fr 1fr;
+      gap: 0 80px;
+    }
+    .happen { padding: 36px 0; }
+
+    .table-chapter { padding: 140px var(--gutter-d); }
+    .manifesto { padding: 160px var(--gutter-d); }
+    .closing { padding: 140px var(--gutter-d); }
+    .cta-group {
+      flex-direction: row;
+      max-width: 540px;
+      justify-content: center;
+    }
+    .chapter-break {
+      min-height: 50svh;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .hero-content { padding-left: 120px; padding-right: 120px; }
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     PRINT — clean dossier output
+     ───────────────────────────────────────────────────────────── */
+  @media print {
+    body { background: #fff; color: #1a1a1a; font-size: 11pt; }
+    body::before { display: none; }
+    video, .cta { display: none !important; }
+    section, .hero, .chapter, .moment, .happens, .table-chapter,
+    .manifesto, .closing, .chapter-break, .diptych {
+      page-break-inside: avoid;
+      break-inside: avoid;
+      min-height: auto !important;
+      height: auto !important;
+      background: #fff !important;
+      color: #1a1a1a !important;
+      padding: 40px !important;
+    }
+    .chapter-asset, .moment-asset, .hero-media, .pair-asset {
+      max-height: 65vh !important;
+      width: 100%;
+    }
+    .chapter-asset img, .moment-asset img, .pair-asset img,
+    .hero-media img { filter: none !important; }
+    h1, h2, h3, h4 { color: #1a1a1a !important; }
+    em, .gold { color: #A8884C !important; }
+    .eyebrow, .folio, .cta { color: #A8884C !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HERO · video aéreo del lugar
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="act hero" id="hero">
+  <div class="hero-media">
+    <video autoplay muted loop playsinline preload="metadata"
+           poster="bliss-assets/v01_aerial_poster.jpg"
+           aria-label="Bliss · vista aérea">
+      <source src="bliss-assets/v01_aerial.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Extreme Happiness</div>
+    <h1 class="hero-title">B&middot;L&middot;I&middot;S&middot;S</h1>
+    <div class="hero-tagline">Sobre el embalse de Guatapé</div>
+    <div class="hero-meta">
+      <span>Antioquia · Colombia</span>
+      <span><em>MMXXVI</em></span>
+    </div>
+  </div>
+  <div class="folio"><em>00</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ACT I · EL LUGAR / THE PLACE
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="chapter-break">
+  <span class="roman">I</span>
+  <span class="rule"></span>
+  <span class="label-es">El lugar</span>
+  <span class="label-en">— The Place</span>
+</section>
+
+<section class="act chapter">
+  <div class="chapter-asset v">
+    <img src="bliss-assets/09_aerial-turquoise-island-v.jpg" loading="lazy"
+         alt="Vista aérea de la península Bliss sobre el embalse de Guatapé">
+  </div>
+  <div class="chapter-text">
+    <div class="eyebrow reveal">Acto I <span class="sep">·</span> El Lugar <span class="en">The Place</span></div>
+    <h2 class="reveal">Una península<br><em>sobre el agua.</em></h2>
+    <p class="lead reveal">
+      Bliss ocupa la franja más fotogénica del embalse — agua turquesa, vista a la Piedra del Peñol, marina propia, helipuerto, muelle.
+    </p>
+    <p class="body reveal">
+      Tres millones setecientos mil viajeros llegan a Guatapé cada año. La mayoría mira, fotografía, se va. <b>Bliss es uno de los pocos lugares donde se quedan.</b>
+    </p>
+  </div>
+  <div class="folio"><em>01</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- Diptych: aerial overview + club house establishing -->
+<section class="act">
+  <div class="diptych">
+    <div class="pair-asset">
+      <img src="bliss-assets/10_aerial-bliss-overview-h.jpg" loading="lazy"
+           alt="Vista aérea de Bliss Club con helipuerto y embalse">
+    </div>
+    <div class="pair-asset">
+      <img src="bliss-assets/12_bliss-club-house-h.jpg" loading="lazy"
+           alt="Casa de cristal de Bliss Club con jardín">
+    </div>
+    <div class="diptych-caption">
+      <div class="eyebrow reveal">— Establishing</div>
+      <h2 class="reveal">Setenta y cinco minutos desde Medellín.<br><span class="em-rule"></span>Noventa desde el aire.</h2>
+    </div>
+  </div>
+  <div class="folio"><em>01</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ACT II · LA LLEGADA / THE ARRIVAL
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="chapter-break">
+  <span class="roman">II</span>
+  <span class="rule"></span>
+  <span class="label-es">La llegada</span>
+  <span class="label-en">— The Arrival</span>
+</section>
+
+<section class="act chapter reverse">
+  <div class="chapter-asset h">
+    <img src="bliss-assets/15_helicopter-bliss-sign-h.jpg" loading="lazy"
+         alt="Helicóptero estacionado en el helipuerto privado de Bliss Club">
+  </div>
+  <div class="chapter-text">
+    <div class="eyebrow reveal">Acto II <span class="sep">·</span> La Llegada <span class="en">The Arrival</span></div>
+    <h2 class="reveal">Por aire,<br>por agua,<br><em>por carretera.</em></h2>
+    <p class="lead reveal">
+      Helipuerto propio · marina con lancha privada · carretera a setenta y cinco minutos del Aeropuerto José María Córdova.
+    </p>
+    <p class="body reveal">
+      <b>Ninguna otra propiedad en Guatapé reúne los tres accesos bajo una misma operación.</b> El huésped llega como decida llegar — el lugar se lo permite.
+    </p>
+  </div>
+  <div class="folio"><em>02</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ACT III · EL CLUB / THE CLUB
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="chapter-break">
+  <span class="roman">III</span>
+  <span class="rule"></span>
+  <span class="label-es">El club</span>
+  <span class="label-en">— The Club</span>
+</section>
+
+<section class="act chapter">
+  <div class="chapter-asset v">
+    <img src="bliss-assets/01_glass-house-helipad-v.jpg" loading="lazy"
+         alt="Casa de cristal de Bliss sobre la plaza con marca del helipuerto">
+  </div>
+  <div class="chapter-text">
+    <div class="eyebrow reveal">Acto III <span class="sep">·</span> El Club <span class="en">The Club</span></div>
+    <h2 class="reveal">Cristal, ladera<br><em>y una estrella<br>en el piso.</em></h2>
+    <p class="lead reveal">
+      Arquitectura de espejos enmarcada en madera y piedra local — y un helipuerto demarcado sobre la plaza, listo para recibir.
+    </p>
+    <p class="body reveal">
+      Bar, restaurante con cocina de autor, lounge interior con jardín vertical, marina, helipuerto privado. <b>Operación durante los doce meses del año.</b>
+    </p>
+  </div>
+  <div class="folio"><em>03</em> <span class="of">/ 09</span></div>
+</section>
+
+<section class="act chapter reverse">
+  <div class="chapter-asset h">
+    <img src="bliss-assets/02_lounge-interior-h.jpg" loading="lazy"
+         alt="Lounge interior con techo de bambú y jardín vertical">
+  </div>
+  <div class="chapter-text">
+    <div class="eyebrow reveal">— Interior</div>
+    <h2 class="reveal">Materia <em>viva.</em></h2>
+    <p class="body reveal">
+      Bambú, piedra local, jardines verticales, ratán negro, mesas de madera maciza. Cada superficie del club fue elegida por una sola razón: <b>que el huésped no recuerde el mobiliario, sino la sensación.</b>
+    </p>
+  </div>
+  <div class="folio"><em>03</em> <span class="of">/ 09</span></div>
+</section>
+
+<section class="act chapter reverse">
+  <div class="chapter-asset h">
+    <img src="bliss-assets/04_amphitheater-tikis-h.jpg" loading="lazy"
+         alt="Anfiteatro con tikis tallados y vista al muelle">
+  </div>
+  <div class="chapter-text">
+    <div class="eyebrow reveal">— El encuentro</div>
+    <h2 class="reveal">Un anfiteatro<br><em>frente al agua.</em></h2>
+    <p class="body reveal">
+      Capacidad de evento al aire libre con escalinata propia al muelle. Bodas, ceremonias, sesiones musicales y festivales privados sobre el embalse.
+    </p>
+  </div>
+  <div class="folio"><em>03</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ACT IV · EL GLAMPING / THE GLAMPING
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="chapter-break">
+  <span class="roman">IV</span>
+  <span class="rule"></span>
+  <span class="label-es">El glamping</span>
+  <span class="label-en">— The Glamping</span>
+</section>
+
+<section class="act chapter">
+  <div class="chapter-asset v">
+    <img src="bliss-assets/06_glamping-domes-slope-v.jpg" loading="lazy"
+         alt="Domos geodésicos de glamping en cascada hacia el embalse">
+  </div>
+  <div class="chapter-text">
+    <div class="eyebrow reveal">Acto IV <span class="sep">·</span> El Glamping <span class="en">The Glamping</span></div>
+    <h2 class="reveal">Domos colgados<br><em>de la ladera.</em></h2>
+    <p class="lead reveal">
+      Cinco domos geodésicos en cascada hacia el embalse. Cada uno con terraza privada, ventanal descubierto y vista directa a la Piedra del Peñol.
+    </p>
+    <p class="body reveal">
+      Estadías premium, retiros creativos, residencias privadas. <b>La experiencia Bliss extendida más allá del atardecer.</b>
+    </p>
+  </div>
+  <div class="folio"><em>04</em> <span class="of">/ 09</span></div>
+</section>
+
+<section class="act chapter reverse">
+  <div class="chapter-asset v">
+    <img src="bliss-assets/14_dome-interior-view-v.jpg" loading="lazy"
+         alt="Interior del domo geodésico con vista al embalse y la Piedra del Peñol">
+  </div>
+  <div class="chapter-text">
+    <div class="eyebrow reveal">— Dentro del domo</div>
+    <h2 class="reveal">La Piedra,<br><em>desde la cama.</em></h2>
+    <p class="body reveal">
+      Cada domo enmarca el embalse y la Piedra del Peñol desde el primer momento del día. Las ventanas no son una vista — son la habitación.
+    </p>
+  </div>
+  <div class="folio"><em>04</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- MOMENT — domo con luna sobre el lago -->
+<section class="act moment">
+  <div class="moment-asset v">
+    <img src="bliss-assets/13_dome-moon-lake-v.jpg" loading="lazy"
+         alt="Domo geodésico con la luna sobre el embalse">
+  </div>
+  <div class="folio"><em>04</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- THE MOMENT — atardecer sin texto -->
+<section class="act moment">
+  <div class="moment-asset v">
+    <img src="bliss-assets/11_sunset-dome-silhouette-v.jpg" loading="lazy"
+         alt="Atardecer sobre el embalse con domo en silueta">
+  </div>
+  <div class="folio"><em>04</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ACT V · LAS SUITES / THE SUITES
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="chapter-break">
+  <span class="roman">V</span>
+  <span class="rule"></span>
+  <span class="label-es">Las suites</span>
+  <span class="label-en">— The Suites</span>
+</section>
+
+<section class="act chapter">
+  <div class="chapter-asset h">
+    <img src="bliss-assets/03_suite-mustard-bed-h.jpg" loading="lazy"
+         alt="Suite con cama mostaza y ventanal piso a techo al embalse">
+  </div>
+  <div class="chapter-text">
+    <div class="eyebrow reveal">Acto V <span class="sep">·</span> Las Suites <span class="en">The Suites</span></div>
+    <h2 class="reveal">Dormir <em>en el agua.</em></h2>
+    <p class="lead reveal">
+      Suites con ventanal piso a techo orientado al embalse. El despertar forma parte del relato tanto como el atardecer.
+    </p>
+    <p class="body reveal">
+      Materiales cálidos · lino · madera oscura · dorado tenue. <b>Una habitación que no compite con la vista, la sostiene.</b>
+    </p>
+  </div>
+  <div class="folio"><em>05</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ACT VI · EL AGUA / THE WATER
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="chapter-break">
+  <span class="roman">VI</span>
+  <span class="rule"></span>
+  <span class="label-es">El agua</span>
+  <span class="label-en">— The Water</span>
+</section>
+
+<section class="act chapter">
+  <div class="chapter-asset h">
+    <video autoplay muted loop playsinline preload="metadata"
+           poster="bliss-assets/v03_jetski_poster.jpg"
+           aria-label="Recorrido sobre el embalse">
+      <source src="bliss-assets/v03_jetski.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="chapter-text">
+    <div class="eyebrow reveal">Acto VI <span class="sep">·</span> El Agua <span class="en">The Water</span></div>
+    <h2 class="reveal">El embalse<br><em>en primera persona.</em></h2>
+    <p class="body reveal">
+      Jet ski · lancha privada · paddle · flyboard. La marina de Bliss conecta con los muelles principales del embalse. <b>La propiedad se vive desde el agua, no solo desde la orilla.</b>
+    </p>
+  </div>
+  <div class="folio"><em>06</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ACT VII · LA COCINA / THE TABLE — typography-led
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="chapter-break">
+  <span class="roman">VII</span>
+  <span class="rule"></span>
+  <span class="label-es">La cocina</span>
+  <span class="label-en">— The Table</span>
+</section>
+
+<section class="act table-chapter">
+  <div class="table-inner">
+    <div class="eyebrow reveal">Acto VII <span class="sep">·</span> La Cocina <span class="en">The Table</span></div>
+    <h2 class="reveal">Cocina que <em>continúa</em><br>la vista del embalse.</h2>
+    <p class="signature reveal">
+      La mesa no compite con el paisaje. Lo extiende.
+    </p>
+    <p class="body reveal">
+      Cocina antioqueña reinterpretada con técnica contemporánea y producto local. La carta cambia con la estación y el menú se adapta a tres momentos: <b>brunch sobre el muelle, almuerzo al sol, cena después del atardecer.</b>
+    </p>
+    <p class="body reveal">
+      La carta de bebidas trabaja con frutas del embalse, cítricos locales y destilados colombianos seleccionados.
+    </p>
+    <div class="table-chef reveal">
+      <span class="role">Liderazgo gastronómico</span>
+      <span class="name">Chef <em>Juan Estrada</em></span>
+    </div>
+  </div>
+  <div class="folio"><em>07</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ACT VIII · LO QUE OCURRE / WHAT HAPPENS
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="chapter-break">
+  <span class="roman">VIII</span>
+  <span class="rule"></span>
+  <span class="label-es">Lo que ocurre en Bliss</span>
+  <span class="label-en">— What Happens</span>
+</section>
+
+<section class="act happens">
+  <div class="happens-head">
+    <div class="eyebrow reveal">Acto VIII <span class="sep">·</span> Encuentros</div>
+    <h2 class="reveal">Cinco maneras<br><em>de habitar Bliss.</em></h2>
+  </div>
+  <div class="happens-list">
+    <div class="happen reveal">
+      <span class="num">i.</span>
+      <div>
+        <h4>Hospedaje <em>premium</em></h4>
+        <p>Domos, suites y habitaciones del club. Reservas individuales o buyout completo para grupos.</p>
+      </div>
+    </div>
+    <div class="happen reveal">
+      <span class="num">ii.</span>
+      <div>
+        <h4>Bodas <em>y celebraciones</em></h4>
+        <p>Anfiteatro frente al embalse, marina privada para ceremonias sobre el agua, cocina del chef y operación llave-en-mano.</p>
+      </div>
+    </div>
+    <div class="happen reveal">
+      <span class="num">iii.</span>
+      <div>
+        <h4>Marca <em>y eventos</em></h4>
+        <p>Activaciones de sponsor, lanzamientos, off-sites corporativos, programación anual co-producida. Naming rights bajo curaduría.</p>
+      </div>
+    </div>
+    <div class="happen reveal">
+      <span class="num">iv.</span>
+      <div>
+        <h4>Retiros <em>creativos</em></h4>
+        <p>Glamping completo para residencias de escritura, planeación estratégica, programas de bienestar y mastermind privados.</p>
+      </div>
+    </div>
+    <div class="happen reveal">
+      <span class="num">v.</span>
+      <div>
+        <h4>Producción <em>audiovisual</em></h4>
+        <p>Locación lista para campañas, video musical, editorial. Helipuerto, marina, más de treinta locaciones dentro del mismo perímetro.</p>
+      </div>
+    </div>
+  </div>
+  <div class="folio"><em>08</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     MANIFESTO · cierre filosófico antes del contacto
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="act manifesto">
+  <div class="manifesto-eyebrow eyebrow">Manifesto</div>
+  <img class="manifesto-tree" src="bliss-assets/favicon.png"
+       alt="Bliss · símbolo">
+  <h2 class="manifesto-headline reveal">
+    Bliss no es un club.<br>No es un hotel.<br>Es <em>un estado.</em>
+  </h2>
+  <div class="manifesto-rule"></div>
+  <p class="manifesto-body reveal">
+    <em>Extreme Happiness</em> no es ruido.
+  </p>
+  <p class="manifesto-body reveal">
+    Es el momento en que el embalse se detiene, la mesa se quieta, y la marca desaparece para que el huésped recuerde la sensación.
+  </p>
+  <div class="manifesto-tag">B &middot; L &middot; I &middot; S &middot; S</div>
+  <div class="folio"><em>09</em> <span class="of">/ 09</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CLOSING · contact + dual CTA
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="act closing" id="contact">
+  <img class="closing-logo" src="bliss-assets/07_logo-bliss-gold-black.png"
+       alt="Bliss · Extreme Happiness">
+  <h2 class="closing-line reveal">
+    El lugar ya existe.<br><em>Falta la visita.</em>
+  </h2>
+  <div class="closing-rule"></div>
+  <div class="cta-group">
+    <a class="cta primary"
+       href="https://wa.me/573000000000?text=Hola%20Bliss%2C%20me%20gustar%C3%ADa%20reservar%20una%20estad%C3%ADa."
+       aria-label="Reservar estadía en Bliss">
+      Reservar estadía <span class="arr">→</span>
+    </a>
+    <a class="cta secondary"
+       href="mailto:info@sancormgmt.com?subject=Bliss%20%E2%80%94%20Conversaci%C3%B3n&body=Buenas%20tardes%2C%0A%0AMe%20gustar%C3%ADa%20conversar%20sobre%20una%20alianza%2Fevento%2Fproducci%C3%B3n%20en%20Bliss%20Guatap%C3%A9.%0A%0A">
+      Conversar con Bliss <span class="arr">→</span>
+    </a>
+  </div>
+  <div class="closing-meta">
+    <div>B &middot; L &middot; I &middot; S &middot; S</div>
+    <div>Guatapé · Antioquia · Colombia</div>
+    <div><a href="mailto:info@sancormgmt.com">info@sancormgmt.com</a></div>
+    <div class="colophon">
+      Operado en alianza con <span class="ed">Sancor MGMT</span>
+    </div>
+    <div class="colophon" style="margin-top:6px;font-size:9.5px;letter-spacing:0.18em;text-transform:uppercase;font-family:'Manrope',sans-serif;font-style:normal;">
+      Edición <em style="color:var(--gold);font-style:italic;font-family:'Italiana',serif;text-transform:none;letter-spacing:0.06em;">MMXXVI</em>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Reveal text on scroll — never block visibility of logos or CTAs
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Safety fallback — if observer doesn't fire (JS disabled, edge case),
+  // ensure all reveal elements become visible after 2.5s of page load
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.in)').forEach(el => el.classList.add('in'));
+  }, 2500);
+
+  // Pause videos out of viewport (saves battery on mobile)
+  const vObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      const v = e.target;
+      if (e.isIntersecting) {
+        if (v.paused) v.play().catch(() => {});
+      } else if (!v.paused) {
+        v.pause();
+      }
+    });
+  }, { threshold: 0.25 });
+  document.querySelectorAll('video').forEach(v => vObs.observe(v));
+
+  // Smooth fade for video opacity
+  document.querySelectorAll('video').forEach(v => {
+    v.style.opacity = '0';
+    v.style.transition = 'opacity 1.2s ease';
+    const show = () => { v.style.opacity = '1'; };
+    v.addEventListener('canplay', show, { once: true });
+    v.addEventListener('loadeddata', show, { once: true });
+    v.addEventListener('error', show, { once: true });
+    setTimeout(show, 2000);
+  });
+</script>
+
+</body>
+</html>

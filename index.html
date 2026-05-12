@@ -1695,15 +1695,157 @@
     }
   }
 
-  /* VERTICAL LABELS in manifesto margins */
-  .manifesto .vlabel {
+  /* VERTICAL LABELS in section margins */
+  .manifesto .vlabel,
+  .chapter-break .vlabel {
     color: rgba(212,175,111,0.32);
   }
-  .manifesto .vlabel.left { left: 18px; top: 50%; transform: translateY(-50%) rotate(180deg); }
-  .manifesto .vlabel.right { right: 18px; top: 50%; transform: translateY(-50%) rotate(180deg); }
+  .manifesto .vlabel.left,
+  .chapter-break .vlabel.left {
+    left: 14px; top: 50%; transform: translateY(-50%) rotate(180deg);
+  }
+  .manifesto .vlabel.right,
+  .chapter-break .vlabel.right {
+    right: 14px; top: 50%; transform: translateY(-50%) rotate(180deg);
+  }
   @media (min-width: 900px) {
-    .manifesto .vlabel.left { left: 36px; }
-    .manifesto .vlabel.right { right: 36px; }
+    .manifesto .vlabel.left, .chapter-break .vlabel.left { left: 36px; }
+    .manifesto .vlabel.right, .chapter-break .vlabel.right { right: 36px; }
+  }
+
+  /* BRAND FILM — cinematic interlude */
+  .brand-film {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    background: var(--void);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .brand-film video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  @media (min-width: 900px) {
+    .brand-film video {
+      width: auto;
+      height: 100%;
+      object-fit: contain;
+    }
+    .brand-film::before, .brand-film::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 25%;
+      background: linear-gradient(to right, var(--void) 30%, rgba(0,0,0,0));
+      z-index: 2;
+      pointer-events: none;
+    }
+    .brand-film::before { left: 0; }
+    .brand-film::after { right: 0; transform: scaleX(-1); }
+  }
+  .brand-film-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: linear-gradient(180deg,
+      rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 75%, rgba(0,0,0,0.7) 100%);
+    pointer-events: none;
+  }
+  .brand-film-label {
+    position: absolute;
+    z-index: 4;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    font-size: 10.5px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .brand-film-caption {
+    position: absolute;
+    z-index: 4;
+    bottom: 32px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Italiana', serif;
+    font-style: italic;
+    font-size: clamp(14px, 3.4vw, 18px);
+    letter-spacing: 0.06em;
+    color: var(--gold-warm);
+    text-shadow: 0 1px 12px rgba(0,0,0,0.55);
+  }
+
+  /* AUDIO TOGGLE button */
+  .audio-toggle {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    z-index: 100;
+    width: 44px;
+    height: 44px;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(212,175,111,0.32);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.6s ease, background 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .audio-toggle.visible {
+    opacity: 1;
+  }
+  .audio-toggle:hover {
+    background: rgba(212,175,111,0.18);
+  }
+  .audio-toggle .bars {
+    display: flex;
+    align-items: center;
+    gap: 2.5px;
+    height: 14px;
+  }
+  .audio-toggle .bar {
+    width: 2px;
+    background: var(--gold);
+    transition: height 0.3s ease;
+  }
+  .audio-toggle .bar:nth-child(1) { height: 6px; }
+  .audio-toggle .bar:nth-child(2) { height: 12px; }
+  .audio-toggle .bar:nth-child(3) { height: 8px; }
+  .audio-toggle .bar:nth-child(4) { height: 14px; }
+  .audio-toggle.muted .bar { height: 4px !important; }
+  .audio-toggle.playing .bar {
+    animation: audio-bar 1.2s ease-in-out infinite;
+  }
+  .audio-toggle.playing .bar:nth-child(1) { animation-delay: 0s; }
+  .audio-toggle.playing .bar:nth-child(2) { animation-delay: 0.15s; }
+  .audio-toggle.playing .bar:nth-child(3) { animation-delay: 0.3s; }
+  .audio-toggle.playing .bar:nth-child(4) { animation-delay: 0.45s; }
+  @keyframes audio-bar {
+    0%, 100% { height: 4px; }
+    50%      { height: 14px; }
+  }
+  @media (min-width: 900px) {
+    .audio-toggle { bottom: 28px; right: 32px; width: 48px; height: 48px; }
+  }
+
+  /* LIQUID DISTORTION subtle on aerial assets — SVG filter */
+  .liquid {
+    filter: url(#liquidFilter);
   }
 
   /* ─────────────────────────────────────────────────────────────
@@ -1712,7 +1854,8 @@
   @media print {
     body { background: #fff; color: #1a1a1a; font-size: 11pt; }
     body::before { display: none; }
-    video, .cta, .dawn, .brand-chip, .scroll-progress { display: none !important; }
+    video, .cta, .dawn, .brand-chip, .scroll-progress, .audio-toggle, .brand-film, .marquee { display: none !important; }
+    .liquid { filter: none !important; }
     section, .hero, .chapter, .moment, .happens, .table-chapter,
     .manifesto, .closing, .chapter-break, .diptych {
       page-break-inside: avoid;
@@ -1736,6 +1879,28 @@
 </style>
 </head>
 <body>
+
+<!-- SVG · liquid distortion filter for aerial shots -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="liquidFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="3">
+        <animate attributeName="baseFrequency" dur="22s" values="0.012 0.018; 0.018 0.012; 0.012 0.018" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" scale="6"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- Audio toggle (top of stacking) -->
+<button class="audio-toggle muted" id="audioToggle" aria-label="Toggle ambient audio" aria-pressed="false">
+  <span class="bars">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </span>
+</button>
 
 <!-- ═══════════════════════════════════════════════════════════════
      DAWN INTRO · amanecer cromático al cargar
@@ -1791,6 +1956,8 @@
      ACT I · EL LUGAR / THE PLACE
      ═══════════════════════════════════════════════════════════════ -->
 <section class="chapter-break">
+  <span class="vlabel left">MMXXVI · Bliss</span>
+  <span class="vlabel right">Act I · The Place</span>
   <span class="roman">I</span>
   <span class="rule"></span>
   <span class="label-es">El lugar</span>
@@ -1799,7 +1966,7 @@
 
 <section class="act chapter">
   <div class="chapter-asset v">
-    <img src="bliss-assets/09_aerial-turquoise-island-v.jpg" loading="lazy"
+    <img class="liquid" src="bliss-assets/09_aerial-turquoise-island-v.jpg" loading="lazy"
          alt="Vista aérea de la península Bliss sobre el embalse de Guatapé">
   </div>
   <div class="chapter-text">
@@ -1873,6 +2040,8 @@
      ACT II · LA LLEGADA / THE ARRIVAL
      ═══════════════════════════════════════════════════════════════ -->
 <section class="chapter-break">
+  <span class="vlabel left">MMXXVI · Bliss</span>
+  <span class="vlabel right">Act II · The Arrival</span>
   <span class="roman">II</span>
   <span class="rule"></span>
   <span class="label-es">La llegada</span>
@@ -1901,6 +2070,8 @@
      ACT III · EL CLUB / THE CLUB
      ═══════════════════════════════════════════════════════════════ -->
 <section class="chapter-break">
+  <span class="vlabel left">MMXXVI · Bliss</span>
+  <span class="vlabel right">Act III · The Club</span>
   <span class="roman">III</span>
   <span class="rule"></span>
   <span class="label-es">El club</span>
@@ -1961,7 +2132,21 @@
 <!-- ═══════════════════════════════════════════════════════════════
      ACT IV · EL GLAMPING / THE GLAMPING
      ═══════════════════════════════════════════════════════════════ -->
+<!-- BRAND FILM — interludio cinematográfico antes del Glamping -->
+<section class="brand-film" id="brandFilm" aria-label="Bliss · Brand film">
+  <video autoplay muted loop playsinline preload="metadata"
+         poster="bliss-assets/brand-film_poster.jpg"
+         aria-label="Bliss brand film">
+    <source src="bliss-assets/brand-film.mp4" type="video/mp4">
+  </video>
+  <div class="brand-film-overlay"></div>
+  <div class="brand-film-label">— Interludio —</div>
+  <div class="brand-film-caption">Veintitrés segundos. La casa, desde el agua.</div>
+</section>
+
 <section class="chapter-break">
+  <span class="vlabel left">MMXXVI · Bliss</span>
+  <span class="vlabel right">Act IV · The Glamping</span>
   <span class="roman">IV</span>
   <span class="rule"></span>
   <span class="label-es">El glamping</span>
@@ -2072,6 +2257,8 @@
      ACT V · LAS SUITES / THE SUITES
      ═══════════════════════════════════════════════════════════════ -->
 <section class="chapter-break">
+  <span class="vlabel left">MMXXVI · Bliss</span>
+  <span class="vlabel right">Act V · The Suites</span>
   <span class="roman">V</span>
   <span class="rule"></span>
   <span class="label-es">Las suites</span>
@@ -2104,6 +2291,8 @@
      ACT VI · EL AGUA / THE WATER
      ═══════════════════════════════════════════════════════════════ -->
 <section class="chapter-break">
+  <span class="vlabel left">MMXXVI · Bliss</span>
+  <span class="vlabel right">Act VI · The Water</span>
   <span class="roman">VI</span>
   <span class="rule"></span>
   <span class="label-es">El agua</span>
@@ -2132,6 +2321,8 @@
      ACT VII · LA COCINA / THE TABLE — typography-led
      ═══════════════════════════════════════════════════════════════ -->
 <section class="chapter-break">
+  <span class="vlabel left">MMXXVI · Bliss</span>
+  <span class="vlabel right">Act VII · The Table</span>
   <span class="roman">VII</span>
   <span class="rule"></span>
   <span class="label-es">La cocina</span>
@@ -2163,6 +2354,8 @@
      ACT VIII · LO QUE OCURRE / WHAT HAPPENS
      ═══════════════════════════════════════════════════════════════ -->
 <section class="chapter-break">
+  <span class="vlabel left">MMXXVI · Bliss</span>
+  <span class="vlabel right">Act VIII · What Happens</span>
   <span class="roman">VIII</span>
   <span class="rule"></span>
   <span class="label-es">Lo que ocurre en Bliss</span>
@@ -2559,6 +2752,110 @@
         setPos(x, y);
       }, { passive: true });
     }
+  })();
+
+  // ═══ AUDIO TOGGLE — procedural ambient (Web Audio, no external asset) ═══
+  (function audioAmbient() {
+    const btn = document.getElementById('audioToggle');
+    if (!btn) return;
+    // Show button after hero scroll
+    const showObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting && e.boundingClientRect.top < 0) {
+          btn.classList.add('visible');
+        }
+      });
+    }, { threshold: 0 });
+    const heroEl = document.getElementById('hero');
+    if (heroEl) showObs.observe(heroEl);
+
+    let ctx = null;
+    let nodes = [];
+    let playing = false;
+
+    const start = () => {
+      if (playing) return;
+      try {
+        ctx = new (window.AudioContext || window.webkitAudioContext)();
+        // Build a slow procedural ambient: two detuned sine oscillators + low-pass + slow LFO on volume
+        const master = ctx.createGain();
+        master.gain.value = 0.0;
+        master.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 1.5);
+        master.connect(ctx.destination);
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 800;
+        filter.Q.value = 0.6;
+        filter.connect(master);
+
+        // Drone oscillators
+        [110, 220, 165].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          const g = ctx.createGain();
+          g.gain.value = [0.4, 0.18, 0.12][i];
+          // Detune slightly for movement
+          osc.detune.setValueAtTime(0, ctx.currentTime);
+          const lfo = ctx.createOscillator();
+          lfo.frequency.value = 0.07 + i * 0.03;
+          const lfoGain = ctx.createGain();
+          lfoGain.gain.value = 8;
+          lfo.connect(lfoGain).connect(osc.detune);
+          osc.connect(g).connect(filter);
+          osc.start();
+          lfo.start();
+          nodes.push(osc, lfo, g);
+        });
+
+        // Very subtle volume LFO for "breath"
+        const breathLFO = ctx.createOscillator();
+        breathLFO.frequency.value = 0.08;
+        const breathGain = ctx.createGain();
+        breathGain.gain.value = 0.025;
+        breathLFO.connect(breathGain).connect(master.gain);
+        breathLFO.start();
+        nodes.push(breathLFO, breathGain, master, filter);
+
+        playing = true;
+        btn.classList.add('playing');
+        btn.classList.remove('muted');
+        btn.setAttribute('aria-pressed', 'true');
+      } catch (err) {
+        console.warn('Audio context failed', err);
+      }
+    };
+
+    const stop = () => {
+      if (!playing || !ctx) return;
+      try {
+        // Fade out master then close
+        const master = nodes.find(n => n.gain && n.gain.value > 0 && n.connect);
+        if (master && master.gain) {
+          master.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5);
+        }
+        setTimeout(() => {
+          nodes.forEach(n => { try { n.stop && n.stop(); n.disconnect && n.disconnect(); } catch (_) {} });
+          if (ctx) ctx.close();
+          ctx = null;
+          nodes = [];
+        }, 600);
+      } catch (_) {}
+      playing = false;
+      btn.classList.remove('playing');
+      btn.classList.add('muted');
+      btn.setAttribute('aria-pressed', 'false');
+    };
+
+    btn.addEventListener('click', () => {
+      if (playing) stop(); else start();
+    });
+
+    // Auto-pause if tab hidden
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && playing) stop();
+    });
   })();
 
   // ═══ Safety fallback — reveal elements visible after 2.5s ═══

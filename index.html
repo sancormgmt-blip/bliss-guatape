@@ -2340,13 +2340,31 @@
     const trackWidth = (slideCount - 1) * 100; // % of viewport-w to translate
 
     let ticking = false;
+    // Each slide gets a "hold" of 60% of its allocated scroll, with 40% as transition
+    // For N slides, we have N "phases" each of length total/N
+    const easeSlide = (p) => {
+      // p is overall 0-1 across all phases
+      const n = slideCount;
+      const phase = p * (n - 1); // 0..n-1
+      const idx = Math.floor(phase);
+      const local = phase - idx; // 0..1 within current transition
+      // Hold first 25% and last 25%, transition in middle 50%
+      let eased;
+      if (local < 0.25) eased = 0;
+      else if (local > 0.75) eased = 1;
+      else {
+        const t = (local - 0.25) / 0.5; // 0..1
+        eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      }
+      return (idx + eased) / (n - 1);
+    };
     const update = () => {
       const rect = section.getBoundingClientRect();
       const vh = window.innerHeight;
-      // 0 when section top hits top of viewport, 1 when section bottom hits bottom of viewport
       const total = section.offsetHeight - vh;
       const scrolled = -rect.top;
-      const progress = Math.max(0, Math.min(1, scrolled / total));
+      const rawProgress = Math.max(0, Math.min(1, scrolled / total));
+      const progress = easeSlide(rawProgress);
       track.style.transform = `translate3d(-${progress * trackWidth}vw, 0, 0)`;
       ticking = false;
     };

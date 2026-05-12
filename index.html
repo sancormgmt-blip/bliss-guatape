@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="bliss-assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@200;300;400;500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,30..100;1,9..144,300..600,30..100&display=swap" rel="stylesheet">
 <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
 <meta property="og:title" content="Bliss · Behind Closed Doors — Guatapé">
 <meta property="og:description" content="Una casa privada sobre el embalse de Guatapé — para lo que merece celebrarse. Club, glamping, gastronomía y agua.">
@@ -65,6 +65,88 @@
     overflow-x: hidden;
   }
 
+  /* ── Magnetic cursor (Nivel 1) ── */
+  .mcursor {
+    position: fixed;
+    left: 0; top: 0;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(212,175,111,0.55);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    mix-blend-mode: difference;
+    transition: width 0.32s cubic-bezier(0.16,1,0.3,1), height 0.32s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+    will-change: transform;
+  }
+  .mcursor.hover {
+    width: 72px; height: 72px;
+    margin-left: -18px; margin-top: -18px;
+    border-color: rgba(229,197,137,0.85);
+    background: rgba(212,175,111,0.06);
+  }
+  .mcursor-dot {
+    position: fixed;
+    left: 0; top: 0;
+    width: 4px; height: 4px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    will-change: transform;
+  }
+  @media (pointer: coarse) { .mcursor, .mcursor-dot { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .mcursor, .mcursor-dot { display: none; } }
+  /* When magnetic cursor is on, hide native cursor on relevant elements for the effect */
+  html:has(.mcursor):not(:hover) { cursor: none; }
+  @media (pointer: fine) {
+    body { cursor: none; }
+    a, button, .cta, .audio-toggle, .brand-chip { cursor: none; }
+  }
+
+  /* ── Fraunces variable axes — editorial-grade typography ── */
+  /* opsz = optical size (small=neutral, large=display flourishes)
+     SOFT = warmth of letterforms (lower=harder, higher=warmer/curvier)
+     wght = weight axis (300=light, 600=display) */
+  .closing-line,
+  .manifesto-headline,
+  .chapter-text h2,
+  .happens-head h2,
+  .table-chapter h2,
+  .diptych-caption h2,
+  .hero-title,
+  .dome-name {
+    font-variation-settings: "opsz" 144, "SOFT" 85, "wght" 360;
+  }
+  .chapter-text h2 em,
+  .happens-head h2 em,
+  .table-chapter h2 em,
+  .diptych-caption h2 em,
+  .manifesto-headline em,
+  .closing-line em,
+  .dome-name em {
+    font-variation-settings: "opsz" 144, "SOFT" 100, "wght" 380;
+  }
+  .fact-num,
+  .happen h4 {
+    font-variation-settings: "opsz" 144, "SOFT" 50, "wght" 320;
+  }
+  .eyebrow,
+  .folio,
+  .vlabel,
+  .label-es,
+  .label-en,
+  .roman,
+  .dome-num,
+  .dome-meta,
+  .happen-meta,
+  .brand-film-label,
+  .brand-film-caption,
+  .fact-label,
+  .fact-desc,
+  .spotlight-hint {
+    font-variation-settings: "opsz" 24, "SOFT" 40, "wght" 380;
+  }
+
   body {
     font-family: 'Manrope', system-ui, sans-serif;
     font-weight: 300;
@@ -102,11 +184,11 @@
      PRIMITIVES · brand typography rules
      ───────────────────────────────────────────────────────────── */
   .serif {
-    font-family: 'Italiana', 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Fraunces', 'Italiana', 'Cormorant Garamond', Georgia, serif;
     font-weight: 400;
   }
   .display {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: var(--t-display);
     line-height: 0.96;
     letter-spacing: -0.005em;
@@ -139,7 +221,7 @@
   .eyebrow .en {
     color: var(--gold-deep);
     font-style: italic;
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     letter-spacing: 0.18em;
     text-transform: none;
     margin-left: 10px;
@@ -162,7 +244,7 @@
   }
   .folio em {
     font-style: italic;
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     color: var(--gold);
     letter-spacing: 0.08em;
     font-size: 1.08em;
@@ -295,7 +377,7 @@
     text-shadow: 0 4px 40px rgba(0,0,0,0.55);
   }
   .hero-tagline {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-style: normal;
     font-size: clamp(17px, 4.6vw, 24px);
     color: var(--gold-warm);
@@ -319,7 +401,7 @@
   }
   .hero-meta em {
     font-style: italic;
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     color: var(--gold);
     font-size: 12px;
     letter-spacing: 0.12em;
@@ -343,14 +425,14 @@
     position: relative;
   }
   .chapter-break .roman {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: clamp(56px, 14vw, 96px);
     color: var(--gold);
     line-height: 0.9;
     letter-spacing: 0.02em;
   }
   .chapter-break .label-es {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: clamp(22px, 6vw, 40px);
     color: var(--bone);
     line-height: 1.1;
@@ -408,7 +490,7 @@
   }
   .chapter-text .eyebrow { margin-bottom: 22px; }
   .chapter-text h2 {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: var(--t-h2);
     line-height: 1.04;
     letter-spacing: -0.005em;
@@ -419,10 +501,10 @@
   .chapter-text h2 em {
     font-style: italic;
     color: var(--gold);
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
   }
   .chapter-text p.lead {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: var(--t-lead);
     line-height: 1.4;
     color: var(--bone-soft);
@@ -496,7 +578,7 @@
   }
   .diptych-caption .eyebrow { margin-bottom: 18px; }
   .diptych-caption h2 {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: var(--t-h3);
     line-height: 1.25;
     color: var(--bone);
@@ -598,7 +680,7 @@
   }
   .table-inner .eyebrow { margin-bottom: 26px; }
   .table-inner h2 {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: var(--t-h2);
     line-height: 1.05;
     letter-spacing: -0.005em;
@@ -608,7 +690,7 @@
   }
   .table-inner h2 em { font-style: italic; color: var(--gold); }
   .table-inner .signature {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-style: italic;
     font-size: clamp(18px, 4.6vw, 24px);
     color: var(--gold-warm);
@@ -646,7 +728,7 @@
     color: var(--bone-mute);
   }
   .table-chef .name {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: clamp(22px, 5.4vw, 30px);
     color: var(--bone);
     letter-spacing: 0.01em;
@@ -674,7 +756,7 @@
   }
   .happens-head .eyebrow { margin-bottom: 22px; }
   .happens-head h2 {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: var(--t-h2);
     line-height: 1.06;
     color: var(--bone);
@@ -698,14 +780,14 @@
     align-items: baseline;
   }
   .happen .num {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-style: italic;
     font-size: 18px;
     color: var(--gold);
     letter-spacing: 0.04em;
   }
   .happen h4 {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: clamp(22px, 5.4vw, 30px);
     font-weight: 400;
     color: var(--bone);
@@ -716,7 +798,7 @@
   .happen h4 em {
     font-style: italic;
     color: var(--gold);
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
   }
   .happen p {
     font-family: 'Manrope', sans-serif;
@@ -761,7 +843,7 @@
     opacity: 0.95;
   }
   .manifesto-headline {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: clamp(32px, 9vw, 76px);
     line-height: 1.02;
     letter-spacing: -0.008em;
@@ -781,7 +863,7 @@
     opacity: 0.65;
   }
   .manifesto-body {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: clamp(18px, 4.6vw, 22px);
     line-height: 1.55;
     color: var(--bone-soft);
@@ -820,7 +902,7 @@
     opacity: 1;
   }
   .closing-line {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: clamp(22px, 5.4vw, 30px);
     line-height: 1.36;
     color: var(--bone);
@@ -894,7 +976,7 @@
   .closing-meta .colophon {
     margin-top: 20px;
     font-style: italic;
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     text-transform: none;
     letter-spacing: 0.04em;
     font-size: 11px;
@@ -903,7 +985,7 @@
   }
   .closing-meta .ed {
     color: var(--gold);
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     text-transform: none;
     letter-spacing: 0.06em;
   }
@@ -1140,7 +1222,7 @@
     position: relative;
     z-index: 2;
     margin-top: 22px;
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-style: italic;
     font-size: clamp(12.5px, 3vw, 16px);
     letter-spacing: 0.24em;
@@ -1377,7 +1459,7 @@
   }
   .fact:last-child { border-bottom: 1px solid var(--hairline-soft); }
   .fact-num {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-weight: 400;
     font-size: clamp(120px, 36vw, 320px);
     line-height: 0.82;
@@ -1402,7 +1484,7 @@
     transition: opacity 1.2s ease 0.4s, transform 1.2s ease 0.4s;
   }
   .fact-desc {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-style: italic;
     font-size: clamp(17px, 4.2vw, 22px);
     color: var(--bone-soft);
@@ -1501,14 +1583,14 @@
     color: var(--bone);
   }
   .dome-num {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: clamp(14px, 3vw, 16px);
     letter-spacing: 0.42em;
     color: var(--gold);
     margin-bottom: 28px;
   }
   .dome-name {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: clamp(64px, 18vw, 180px);
     line-height: 0.92;
     letter-spacing: -0.005em;
@@ -1553,7 +1635,7 @@
     will-change: transform;
   }
   .marquee-track span {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-style: italic;
     font-size: clamp(20px, 4.2vw, 28px);
     letter-spacing: 0.08em;
@@ -1575,7 +1657,7 @@
 
   /* Drop cap — first letter ornamental */
   .drop-cap::first-letter {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-size: 5.2em;
     float: left;
     line-height: 0.82;
@@ -1602,7 +1684,7 @@
 
   /* Asymmetric tagline (italic thin + regular) */
   .tag-asymmetric {
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     line-height: 1.05;
     letter-spacing: -0.005em;
   }
@@ -1797,7 +1879,7 @@
     left: 0;
     right: 0;
     text-align: center;
-    font-family: 'Italiana', serif;
+    font-family: 'Fraunces', 'Italiana', Georgia, serif;
     font-style: italic;
     font-size: clamp(14px, 3.4vw, 18px);
     letter-spacing: 0.06em;
@@ -2802,31 +2884,62 @@
       if (playing) return;
       try {
         ctx = new (window.AudioContext || window.webkitAudioContext)();
-        // Build a slow procedural ambient: two detuned sine oscillators + low-pass + slow LFO on volume
+        const now = ctx.currentTime;
+
+        // ── Master with slow fade-in
         const master = ctx.createGain();
         master.gain.value = 0.0;
-        master.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 1.5);
+        master.gain.linearRampToValueAtTime(0.07, now + 2.5);
         master.connect(ctx.destination);
 
+        // ── Pseudo-reverb via two feedback delays in parallel (long + short)
+        const delayLong = ctx.createDelay(4.0);
+        delayLong.delayTime.value = 1.8;
+        const fbLong = ctx.createGain();
+        fbLong.gain.value = 0.52;
+        const wetLong = ctx.createGain();
+        wetLong.gain.value = 0.35;
+        delayLong.connect(fbLong).connect(delayLong);
+        delayLong.connect(wetLong).connect(master);
+
+        const delayShort = ctx.createDelay(2.0);
+        delayShort.delayTime.value = 0.45;
+        const fbShort = ctx.createGain();
+        fbShort.gain.value = 0.38;
+        const wetShort = ctx.createGain();
+        wetShort.gain.value = 0.22;
+        delayShort.connect(fbShort).connect(delayShort);
+        delayShort.connect(wetShort).connect(master);
+
+        // ── Lowpass with slow sweep (warmth that opens after fade-in)
         const filter = ctx.createBiquadFilter();
         filter.type = 'lowpass';
-        filter.frequency.value = 800;
-        filter.Q.value = 0.6;
+        filter.frequency.setValueAtTime(420, now);
+        filter.frequency.linearRampToValueAtTime(880, now + 18);
+        filter.Q.value = 0.7;
         filter.connect(master);
+        // Send to reverb bus
+        filter.connect(delayLong);
+        filter.connect(delayShort);
 
-        // Drone oscillators
-        [110, 220, 165].forEach((freq, i) => {
+        // ── 5-osc drone: A2 root, fifth, octave, third above, minor 7
+        const harmonics = [
+          { f: 110.00, g: 0.32, lfo: 0.07, det: 6 },   // A2
+          { f: 164.81, g: 0.16, lfo: 0.09, det: 5 },   // E3 (5th)
+          { f: 220.00, g: 0.14, lfo: 0.11, det: 7 },   // A3 (octave)
+          { f: 277.18, g: 0.08, lfo: 0.13, det: 4 },   // C#4 (3rd) — major colour
+          { f: 196.00, g: 0.07, lfo: 0.05, det: 9 },   // G3 (b7) — modal tension
+        ];
+        harmonics.forEach((h, i) => {
           const osc = ctx.createOscillator();
-          osc.type = 'sine';
-          osc.frequency.value = freq;
+          osc.type = i < 2 ? 'sine' : 'triangle';
+          osc.frequency.value = h.f;
           const g = ctx.createGain();
-          g.gain.value = [0.4, 0.18, 0.12][i];
-          // Detune slightly for movement
-          osc.detune.setValueAtTime(0, ctx.currentTime);
+          g.gain.value = h.g;
           const lfo = ctx.createOscillator();
-          lfo.frequency.value = 0.07 + i * 0.03;
+          lfo.frequency.value = h.lfo;
           const lfoGain = ctx.createGain();
-          lfoGain.gain.value = 8;
+          lfoGain.gain.value = h.det;
           lfo.connect(lfoGain).connect(osc.detune);
           osc.connect(g).connect(filter);
           osc.start();
@@ -2834,14 +2947,35 @@
           nodes.push(osc, lfo, g);
         });
 
-        // Very subtle volume LFO for "breath"
+        // ── Slow "wind" noise via biquad-filtered white-noise buffer (very low gain)
+        const bufSize = 2 * ctx.sampleRate;
+        const noiseBuf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+        const data = noiseBuf.getChannelData(0);
+        for (let i = 0; i < bufSize; i++) data[i] = (Math.random() * 2 - 1) * 0.5;
+        const noise = ctx.createBufferSource();
+        noise.buffer = noiseBuf;
+        noise.loop = true;
+        const noiseFilter = ctx.createBiquadFilter();
+        noiseFilter.type = 'bandpass';
+        noiseFilter.frequency.value = 320;
+        noiseFilter.Q.value = 1.6;
+        const noiseGain = ctx.createGain();
+        noiseGain.gain.value = 0.012;
+        noise.connect(noiseFilter).connect(noiseGain).connect(delayLong);
+        noise.start();
+        nodes.push(noise, noiseFilter, noiseGain);
+
+        // ── Breath LFO (slow volume swell)
         const breathLFO = ctx.createOscillator();
-        breathLFO.frequency.value = 0.08;
+        breathLFO.frequency.value = 0.06;
         const breathGain = ctx.createGain();
-        breathGain.gain.value = 0.025;
+        breathGain.gain.value = 0.022;
         breathLFO.connect(breathGain).connect(master.gain);
         breathLFO.start();
-        nodes.push(breathLFO, breathGain, master, filter);
+        nodes.push(breathLFO, breathGain, master, filter, delayLong, fbLong, wetLong, delayShort, fbShort, wetShort);
+
+        // ── Expose master gain for spatial pan (Nivel 3) and section ducking
+        window.__blissAudio = { ctx, master, filter };
 
         playing = true;
         btn.classList.add('playing');
@@ -2906,6 +3040,73 @@
       };
       gestureEvents.forEach(ev => window.addEventListener(ev, onGesture, { capture: true, passive: true }));
     }
+  })();
+
+  // ═══ Magnetic cursor — fine pointers only, follows mouse with damping ═══
+  (function magneticCursor() {
+    if (matchMedia('(pointer: coarse)').matches) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cur = document.createElement('div');
+    cur.className = 'mcursor';
+    document.body.appendChild(cur);
+    const dot = document.createElement('div');
+    dot.className = 'mcursor-dot';
+    document.body.appendChild(dot);
+
+    let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+    let cx = tx, cy = ty;
+    let dtx = tx, dty = ty;
+    let hover = false;
+
+    window.addEventListener('pointermove', (e) => {
+      tx = e.clientX; ty = e.clientY;
+      dtx = e.clientX; dty = e.clientY;
+    }, { passive: true });
+
+    const magneticTargets = '.cta, .audio-toggle, .brand-chip, .lang-toggle';
+    document.addEventListener('pointerover', (e) => {
+      if (e.target.closest && e.target.closest(magneticTargets)) {
+        hover = true;
+        cur.classList.add('hover');
+      }
+    });
+    document.addEventListener('pointerout', (e) => {
+      if (e.target.closest && e.target.closest(magneticTargets)) {
+        hover = false;
+        cur.classList.remove('hover');
+      }
+    });
+
+    const loop = () => {
+      cx += (tx - cx) * 0.18;
+      cy += (ty - cy) * 0.18;
+      dtx += (tx - dtx) * 0.42;
+      dty += (ty - dty) * 0.42;
+      cur.style.transform = `translate3d(${cx - 18}px, ${cy - 18}px, 0)`;
+      dot.style.transform = `translate3d(${dtx - 2}px, ${dty - 2}px, 0)`;
+      requestAnimationFrame(loop);
+    };
+    loop();
+  })();
+
+  // ═══ Hover tilt on dome slides + ctas (3D perspective subtle) ═══
+  (function hoverTilt() {
+    if (matchMedia('(pointer: coarse)').matches) return;
+    const targets = document.querySelectorAll('.dome-slide, .pair-asset, .moment-asset');
+    targets.forEach(el => {
+      el.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1)';
+      el.style.transformStyle = 'preserve-3d';
+      el.addEventListener('pointermove', (e) => {
+        const r = el.getBoundingClientRect();
+        const dx = (e.clientX - r.left - r.width / 2) / r.width;
+        const dy = (e.clientY - r.top - r.height / 2) / r.height;
+        const max = 3.5;
+        el.style.transform = `perspective(1400px) rotateX(${-dy * max}deg) rotateY(${dx * max}deg)`;
+      });
+      el.addEventListener('pointerleave', () => {
+        el.style.transform = '';
+      });
+    });
   })();
 
   // ═══ Safety fallback — reveal elements visible after 2.5s ═══

@@ -1597,7 +1597,7 @@
     letter-spacing: -0.005em;
   }
   .tag-asymmetric .a { font-style: italic; font-weight: 400; color: var(--gold-warm); }
-  .tag-asymmetric .b { font-style: normal; color: var(--bone); margin-left: 0.1em; }
+  .tag-asymmetric .b { font-style: normal; color: var(--bone); margin-left: 0.45em; }
 
   /* Character reveal — [data-split] */
   [data-split] { display: inline-block; }
@@ -1637,12 +1637,19 @@
   }
   .spotlight-color {
     z-index: 2;
-    clip-path: circle(0 at 50% 50%);
-    transition: clip-path 0.18s ease-out;
+    clip-path: circle(140px at 50% 50%);
+    transition: clip-path 0.22s ease-out;
     filter: var(--grade);
+    animation: spotlight-drift-idle 12s ease-in-out infinite alternate;
   }
   .spotlight.active .spotlight-color {
-    clip-path: circle(180px at var(--x, 50%) var(--y, 50%));
+    clip-path: circle(200px at var(--x, 50%) var(--y, 50%));
+    animation: none;
+  }
+  @keyframes spotlight-drift-idle {
+    0%   { clip-path: circle(140px at 38% 42%); }
+    50%  { clip-path: circle(160px at 60% 55%); }
+    100% { clip-path: circle(140px at 45% 60%); }
   }
   .spotlight-cursor {
     position: absolute;
@@ -1680,18 +1687,17 @@
     .spotlight { cursor: pointer; }
     .spotlight-cursor { display: none; }
     .spotlight-color {
-      clip-path: circle(130px at 50% 50%);
-      animation: spotlight-drift 9s ease-in-out infinite alternate;
+      animation: spotlight-drift-touch 9s ease-in-out infinite alternate;
     }
     .spotlight.tap-active .spotlight-color {
-      clip-path: circle(140px at var(--x, 50%) var(--y, 50%));
+      clip-path: circle(160px at var(--x, 50%) var(--y, 50%));
       animation: none;
     }
-    @keyframes spotlight-drift {
-      0%   { clip-path: circle(130px at 30% 35%); }
-      33%  { clip-path: circle(130px at 65% 55%); }
-      66%  { clip-path: circle(130px at 45% 70%); }
-      100% { clip-path: circle(130px at 50% 40%); }
+    @keyframes spotlight-drift-touch {
+      0%   { clip-path: circle(120px at 30% 35%); }
+      33%  { clip-path: circle(120px at 65% 55%); }
+      66%  { clip-path: circle(120px at 45% 70%); }
+      100% { clip-path: circle(120px at 50% 40%); }
     }
   }
 
@@ -2445,7 +2451,7 @@
     <span data-split><em>Falta la ocasión.</em></span>
   </h2>
   <p class="tag-asymmetric reveal" style="font-size: clamp(20px, 5vw, 28px); margin: 0 0 28px; max-width:24ch;">
-    <span class="a">Happiness,</span><span class="b">Behind Closed Doors.</span>
+    <span class="a">Happiness,</span> <span class="b">Behind Closed Doors.</span>
   </p>
   <div class="closing-rule"></div>
   <div class="cta-group">

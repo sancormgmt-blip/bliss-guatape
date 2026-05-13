@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="bliss-assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@200;300;400;500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,30..100;1,9..144,300..600,30..100&family=DM+Serif+Display:ital@0;1&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Manrope:wght@200;300;400;500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,30..100;1,9..144,300..600,30..100&family=DM+Serif+Display:ital@0;1&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
 <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
 <meta property="og:title" content="Bliss · Behind Closed Doors — Guatapé">
 <meta property="og:description" content="Una casa privada sobre el embalse de Guatapé — para lo que merece celebrarse. Club, glamping, gastronomía y agua.">
@@ -21,18 +21,25 @@
      Real brand: black + gold + bone · Italiana display + Manrope sans
      ───────────────────────────────────────────────────────────── */
   :root {
-    --void: #000000;
+    /* ── Paleta oficial Bliss (manual de marca) ──
+       gold #dcb966 · teal #023a48 · negro #010101 · blanco #ffffff
+       Hibridado con sub-tonos editoriales para luxury. */
+    --void: #010101;          /* negro oficial */
     --noir: #0A0A0A;
     --noir-soft: #141414;
-    --bone: #F5F1E8;
+    --bone: #FAF8F2;          /* blanco-bone editorial (off de #ffffff) */
+    --bone-pure: #FFFFFF;     /* blanco oficial puro para CTAs */
     --bone-soft: #DDD7C9;
     --bone-mute: #9C968A;
-    --gold: #D4AF6F;
-    --gold-warm: #E5C589;
-    --gold-deep: #A8884C;
-    --gold-mute: rgba(212,175,111,0.22);
-    --hairline: rgba(212,175,111,0.20);
-    --hairline-soft: rgba(245,241,232,0.08);
+    --gold: #DCB966;          /* gold oficial #dcb966 */
+    --gold-warm: #ECD088;     /* highlight cremoso */
+    --gold-deep: #A88E48;     /* shadow cobre */
+    --gold-mute: rgba(220,185,102,0.22);
+    --teal: #023A48;          /* teal oficial — acento profundo */
+    --teal-warm: #0E5266;     /* hover teal */
+    --teal-mute: rgba(2,58,72,0.45);
+    --hairline: rgba(220,185,102,0.20);
+    --hairline-soft: rgba(250,248,242,0.08);
     --gradient-bottom: linear-gradient(180deg,
       rgba(0,0,0,0) 0%,
       rgba(0,0,0,0) 45%,
@@ -220,9 +227,16 @@
     pointer-events: none;
   }
   .water-canvas.ready { opacity: 0.42; }
-  .chapter.water-host { position: relative; }
+  .chapter.water-host {
+    position: relative;
+    background: linear-gradient(180deg, var(--void) 0%, var(--teal) 100%);
+  }
   .chapter.water-host > * { position: relative; z-index: 2; }
   .chapter.water-host .chapter-asset { z-index: 1; }
+  /* Teal accent on chapter-break VI (water) */
+  .chapter-break.water-break {
+    background: linear-gradient(180deg, var(--void) 0%, var(--teal-mute) 100%);
+  }
 
   /* ── Easter egg overlay ── */
   .secret-card {
@@ -531,6 +545,37 @@
   @media (pointer: fine) {
     body { cursor: none; }
     a, button, .cta, .audio-toggle, .brand-chip { cursor: none; }
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     OFICIAL-BRAND TYPOGRAPHIC ACCENTS
+     Copperplate-equivalent (Cinzel) para sub-brand naming, eyebrows
+     oficiales y stamps tipo manual de marca.
+     ───────────────────────────────────────────────────────────── */
+  .stamp,
+  .sub-brand,
+  .official-eyebrow,
+  .closing-info-line {
+    font-family: 'Cinzel', 'Copperplate', 'Trajan Pro', serif;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    font-feature-settings: "smcp" 1, "c2sc" 1;
+  }
+  .stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: var(--gold);
+    padding: 6px 14px;
+    border: 1px solid var(--gold-deep);
+    border-radius: 999px;
+  }
+  .sub-brand {
+    font-size: 9px;
+    color: var(--gold);
+    letter-spacing: 0.42em;
   }
 
   /* ─────────────────────────────────────────────────────────────
@@ -1904,6 +1949,19 @@
     100% { opacity: 0.95; transform: translateY(0); }
   }
 
+  .dawn-subbrand {
+    position: relative;
+    z-index: 3;
+    margin-top: 18px;
+    font-family: 'Cinzel', 'Copperplate', serif;
+    font-size: 9px;
+    letter-spacing: 0.62em;
+    color: var(--gold-warm);
+    opacity: 0;
+    animation: dawn-tagline-rise 1.0s ease-out 3.8s forwards;
+    text-indent: 0.62em;
+  }
+
   .dawn-skip {
     position: absolute;
     bottom: calc(30px + env(safe-area-inset-bottom));
@@ -2688,6 +2746,7 @@
     <span>B</span><span>·</span><span>L</span><span>·</span><span>I</span><span>·</span><span>S</span><span>·</span><span>S</span>
   </h1>
   <div class="dawn-tagline">Extreme Happiness</div>
+  <div class="dawn-subbrand sub-brand">G R O U P</div>
   <div class="dawn-skip">Toca o pulsa ↵ para entrar</div>
 </div>
 
@@ -3258,7 +3317,7 @@
 <!-- ═══════════════════════════════════════════════════════════════
      ACT VI · EL AGUA / THE WATER
      ═══════════════════════════════════════════════════════════════ -->
-<section class="chapter-break">
+<section class="chapter-break water-break">
   <span class="vlabel left">MMXXVI · Bliss</span>
   <span class="vlabel right">Act VI · The Water</span>
   <span class="roman">VI</span>
@@ -3497,7 +3556,8 @@
   </div>
   <div class="closing-meta">
     <div>B &middot; L &middot; I &middot; S &middot; S</div>
-    <div>Guatapé · Antioquia · Colombia</div>
+    <div class="sub-brand" style="margin-top:6px;">G R O U P  ·  C L U B  +  G L A M P I N G</div>
+    <div style="margin-top:14px;">Guatapé · Antioquia · Colombia</div>
     <div style="color:var(--bone-mute);">info@sancormgmt.com</div>
     <div class="colophon">
       Operado en alianza con <span class="ed">Sancor MGMT</span>
